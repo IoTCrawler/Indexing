@@ -1,0 +1,28 @@
+<div class="col">
+    <br>
+    <hr>
+    <h1 style="text-align: center"> Page {{message}}</h1>
+    <hr>
+    <h1 style="text-align: center;">
+        <img src="/search-engine/images/notFound.gif" alt="">
+    </h1>
+    <hr>
+    <h1 style="text-align: center">
+        <a href="/search-engine/" class="btn btn-info">Go Home </a>
+    </h1>
+
+
+    <hr>
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+           aria-controls="collapseExample">
+            Show Error
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <pre>{{error.stack}}</pre>
+        </div>
+    </div>
+    <br>
+</div>

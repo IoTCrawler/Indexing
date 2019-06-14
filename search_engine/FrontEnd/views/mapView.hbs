@@ -1,0 +1,73 @@
+<!--<div class="container-fluid">
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+</div>-->
+<br>
+<div class="container-fluid">
+    <!-- Control the column width, and how they should appear on different devices -->
+    <div class="row">
+        <div class="col-sm-3"> <!--custom-card-side-nav-->
+            <div class="scroll custom-card-side-nav">
+
+                <!--This is the main menu at the top-->
+                <div class="card">
+                    <div class="card-body bg-light">
+                        <button class="btn btn-primary float">Refresh</button>
+                        <button class="btn btn-success float"> Show All Car Parks</button>
+                    </div>
+                </div>
+
+                {{#each data}}
+                    <div class="card text-white bg-dark mb-3" id="myTable">
+                        <data class="mapData">
+                            <div class="card bg-info text-white garageCode"><b>{{this.garageCode}}</b></div>
+
+                            <div class="card-body card-effect-circle">
+                                <h7 class="card-title">Total spaces: <b>{{this.availableSpaces}}</b></h7>
+                                <p></p>
+                                <p class="card-text">Last upadated: {{this.date}}</p>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-sm btn-success float-left" data-toggle="collapse"
+                                        data-target="#demo-{{@index}}"> More Information <i
+                                        class="fas fa-caret-down"></i>
+                                </button>
+                                <br>
+                                <hr>
+                                <div id="demo-{{@index}}" class="collapse">
+
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                        minim veniam,
+                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat.
+                                    </p>
+                                    <canvas class="line-chart" style="background-color: white" width="800" height="450"></canvas>
+                                </div>
+                            </div>
+                        </data>
+                    </div>
+                {{/each}}
+
+
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="card">
+                <div class="card-header">
+                    Maps
+                </div>
+                <div class="">
+
+                    <section id="map"> Data!</section>
+                </div>
+                <div class="card-footer text-muted">
+                    2 days ago
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br>
+<script type="text/javascript" src="/search-engine/javascripts/parkingData.js"></script>

@@ -1,0 +1,336 @@
+/*Parking spaces*/
+#map {
+    width: 100%;
+    height: 650px;
+    background: #aadaff;
+}
+/* Traffic Overview for Aarhus start */
+#mapOverview {
+    width: 100%;
+    height: 850px;
+    background: #aadaff;
+}
+/* Traffic Overview for Aarhus end */
+
+
+/* Welcome map picker */
+#mapPicker {
+    width: 100%;
+    height: 650px;
+    background: #aadaff;
+}
+
+#parkSpaceHeader{
+    color: #a30000;
+}
+
+
+#parkSpaceHeader:hover{
+    color: pink;
+}
+
+#parkingAvailableSpaces{
+    font-size: medium;
+}
+
+#parkingLastUpdated{
+    font-size: medium;
+}
+    /*Parking spaces end */
+#airPollutionMap {
+    width: 100%;
+    height: 650px;
+}
+
+#headerLogo {
+    height: 10%;
+    width: 10%;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: rgb(255, 255, 255);
+}
+
+.fas {
+    color: rgb(255, 0, 0);
+
+}
+
+/* Expand */
+.fa-expand{
+    color: black;
+}
+
+.fa-sync-alt {
+    color: black;
+}
+
+.fas:hover {
+    color: white;
+
+}
+
+.navbar:hover a:hover {
+    background-color: #656565 !important;;
+}
+
+.navbar {
+    background-color: #222 !important;;
+}
+
+
+#main-footer .footer-widget h4 {
+    color: #ffffff;
+}
+
+.footer-widget .fwidget:last-child {
+    margin-bottom: 0 !important;
+}
+
+.et_pb_widget {
+    float: left;
+    max-width: 100%;
+}
+
+
+.et_pb_gutters3.et_pb_footer_columns3 .footer-widget {
+    width: 29.666%;
+}
+
+.footer-widget {
+    color: #ffffff;
+}
+
+.footer-widgets {
+    padding: 6% 0 0;
+}
+
+.element.style {
+    max-width: 100%;
+    height: auto;
+}
+
+.et_pb_gutters3 .footer-widget {
+    margin: 0 5.5% 5.5% 0;
+}
+
+.scroll {
+    overflow-y: auto;
+    max-height: 850px;
+}
+
+
+.scroll-traffic-results {
+    overflow-y: auto;
+    max-height: 1020px;
+}
+
+.card-effect-circle:after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    width: 16px;
+    height: 22px;
+    border-radius: 11px 0 0 11px;
+    background-color: #e3e7e9;
+    transform: translateY(-50%);
+    box-shadow: inset 2px 0 3px -2px rgba(0, 0, 0, .2);
+}
+
+/*Welcome Home page animation start */
+.fly-in-text {
+    list-style: none;
+    position: absolute;
+    left: 50%;
+    top: 6%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.fly-in-text li {
+    display: inline-block;
+    margin-right: 50px;
+    font-family: Open Sans, Arial;
+    font-weight: 200;
+    font-size: 4em;
+    color: black;
+    opacity: 1;
+    transition: all 1.3s ease-in;
+}
+
+.fly-in-text li:last-child {
+    margin-right: 0;
+}
+
+.fly-in-text.hidden li {
+    opacity: 0;
+}
+
+.fly-in-text.hidden li:nth-child(1) {
+    transform: translateX(-200px) translateY(-100px);
+}
+
+.fly-in-text.hidden li:nth-child(2) {
+    transform: translateX(20px) translateY(100px);
+}
+
+.fly-in-text.hidden li:nth-child(3) {
+    transform: translateX(-150px) translateY(-80px);
+}
+
+.fly-in-text.hidden li:nth-child(4) {
+    transform: translateX(10px) translateY(-200px);
+}
+
+.fly-in-text.hidden li:nth-child(5) {
+    transform: translateX(-300px) translateY(200px);
+}
+
+.fly-in-text.hidden li:nth-child(6) {
+    transform: translateX(20px) translateY(-20px);
+}
+
+.fly-in-text.hidden li:nth-child(7) {
+    transform: translateX(30px) translateY(200px);
+}
+
+/*Welcome Home page animation end */
+
+/*Centre image*/
+.center-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+/*Centre image*/
+
+/*home-banner start */
+.home-banner{
+    /*position: fixed;*/
+    left: 0;
+    bottom: 12%;
+    width: 100%;
+}
+
+/*home-banner end */
+
+/*advancedSearch_Btn*/
+.advancedSearch_Btn {
+    position: fixed;
+    bottom: 32%;
+    width: 100%;
+    color: white;
+}
+/*advancedSearch_Btn*/
+
+/*Footer start*/
+.footer {
+    /*position: fixed;*/
+    right: 0;
+    bottom: 0%;
+    left: 0;
+    padding: 1rem;
+    background-color: #222 !important;;
+    color: white;
+    text-align: center;
+}
+
+/*Footer end */
+
+/*Fade in text */
+.fade-in {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1.7s;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/*Fade in text */
+
+/*Select option styling search page */
+select[multiple] {
+    background:none;
+    padding:0;
+    margin:0;
+    border-width: 2px;
+    border-style: inset;
+    appearance: menulist;
+}
+
+/*.border-info :hover{
+    background-color: #a30000;
+    color: white;
+}*/
+/*Select option styling end */
+
+
+/*Input style  start */
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+}
+
+input {
+    border: 1px solid transparent;
+    background-color: #f1f1f1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+input[type=text] {
+    background-color: #ffffff;
+    width: 100%;
+}
+
+input[type=submit] {
+    background-color: DodgerBlue;
+    color: #fff;
+    cursor: pointer;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+}
+/*Input style  end */
+
+/* Same line*/
+.inline {
+    display: inline;
+}

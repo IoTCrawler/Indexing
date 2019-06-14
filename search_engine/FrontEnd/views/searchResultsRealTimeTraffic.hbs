@@ -1,0 +1,109 @@
+<div class="container-fluid">
+    <p></p>
+    <nav>
+        <div class="nav nav-pills  nav-tabs" id="trafficMapResult-tab-buttons" role="tablist">
+            <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-roadView-Traffic" role="tab" aria-controls="nav-profile" aria-selected="false">Aarhus Traffic - By Road</a>
+            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-OverView-Traffic" role="tab" aria-controls="nav-home" aria-selected="true">Aarhus Traffic - Overview </a>
+        </div>
+    </nav>
+    <p></p>
+
+    <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="nav-roadView-Traffic" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <!-- Control the column width, and how they should appear on different devices -->
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="scroll-traffic-results custom-card-side-nav">
+                        <br>
+                        <!--          <label for="basic-url">Type your road: </label>
+                                  <div class="input-group mb-3">
+                                      <div class="input-group-prepend">
+                                          <button class="btn btn-success" type="button"> Search </button>
+                                      </div>
+                                      <input type="text" class="form-control" placeholder="Type your road" aria-label=""
+                                             aria-describedby="basic-addon1">
+                                  </div>-->
+
+                        {{#each data}}
+                            <div class="card text-white bg-dark mb-3" id="myTable">
+                                <data>
+                                    <div class="card bg-info text-white garageCode"> Report ID: {{this.REPORT_ID}} </div>
+
+                                    <div class="card-body card-effect-circle">
+                                        <p class="card-title"><b> Vehicle Count: </b>{{this.vehicleCount}}</p>
+                                        <p class="card-text"><b> Last updated: </b>{{this.TIMESTAMP}}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn-sm btn-success float-left" data-toggle="collapse"
+                                                data-target="#demo-{{@index}}"> More Information <i
+                                                class="fas fa-caret-down"></i>
+                                        </button>
+                                        <br>
+                                        <hr>
+                                        <div id="demo-{{@index}}" class="collapse">
+                                            <h6><span class="badge badge-success">Sensor Status: {{this.status}}</span>
+                                                <span class="badge badge-info">Average Speed: {{this.avgSpeed}}</span>
+                                                <span class="badge badge-info">Sensor/ReportID: {{this.REPORT_ID}}</span></h6>
+                                        </div>
+                                    </div>
+                                </data>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div>
+                        <label for="basic-url">Type your road: </label>
+                        <!--<div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Type your road" aria-describedby="basic-addon1"
+                                   id="streetNameInput" value="Strandvejen">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-success" type="button" id="streetNameSearch">Search</button>
+                            </div>
+                            <br>
+                        </div>-->
+                        <select class="form-control" id="townSelectList">
+                            <option>Please Select A Street Name</option>
+                        </select>
+                    </div>
+                    <div class="card" >
+                        <div class="card-header">
+                            <p style="align-content: center; text-align: center">Displaying Traffic Status for:
+                                <b id="displayHeader"></b>
+                            </p>
+                        </div>
+                        <div class="">
+                            <section id="map"> Data!</section>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <p> Round Name: <b id="searchResultLocation"> x </b></p>
+                            <!--<p> <b id="resultTraffic"> </b></p>-->
+                            <p>Date:
+                                <b id="resultTimeStamp"> x </b>
+                            </p>
+                            <p> Traffic Pattern:
+                                <b id="resultTraffic"> None </b>
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <!--Overview Traffic Start -->
+        <div class="tab-pane fade" id="nav-OverView-Traffic" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="container-fluid">
+            <div id="mapOverview"></div>
+                <br>
+        </div>
+        </div>
+        <!--Overview Traffic End -->
+
+    </div>
+
+</div>
+<script type="text/javascript" src="/search-engine/javascripts/realTimeTraffic.js"></script>
+<script type="text/javascript" src="/search-engine/javascripts/trafficOverview.js"></script>
+
