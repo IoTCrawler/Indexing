@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": false,
+    "allowSyntheticDefaultImports": false,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "removeComments": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
