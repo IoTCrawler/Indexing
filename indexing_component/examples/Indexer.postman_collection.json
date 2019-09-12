@@ -1,0 +1,302 @@
+{
+	"info": {
+		"_postman_id": "79998141-502f-47c9-98b8-68c053f035da",
+		"name": "Indexer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "broker",
+			"item": [
+				{
+					"name": "List Registered Brokers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{indexer-host}}/{{api-prefix}}/broker",
+							"host": [
+								"{{indexer-host}}"
+							],
+							"path": [
+								"{{api-prefix}}",
+								"broker"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Registered Broker",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{indexer-host}}/{{api-prefix}}/broker/{{broker-id}}",
+							"host": [
+								"{{indexer-host}}"
+							],
+							"path": [
+								"{{api-prefix}}",
+								"broker",
+								"{{broker-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Broker",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"host\": \"http://localhost:1026\"\n}"
+						},
+						"url": {
+							"raw": "{{indexer-host}}/{{api-prefix}}/broker",
+							"host": [
+								"{{indexer-host}}"
+							],
+							"path": [
+								"{{api-prefix}}",
+								"broker"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unregister Broker",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{indexer-host}}/{{api-prefix}}/broker/{{broker-id}}",
+							"host": [
+								"{{indexer-host}}"
+							],
+							"path": [
+								"{{api-prefix}}",
+								"broker",
+								"{{broker-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Query (Within)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{indexer-host}}/{{api-prefix}}/query?location[query]=$geoWithin&location[coordinates][0][0]=0.000000&location[coordinates][0][1]=0.000000&location[coordinates][1][0]=0.000000&location[coordinates][1][1]=20.000000&location[coordinates][2][0]=15.000000&location[coordinates][2][1]=20.000000&location[coordinates][3][0]=15.000000&location[coordinates][3][1]=0.000000&type=temperature",
+					"host": [
+						"{{indexer-host}}"
+					],
+					"path": [
+						"{{api-prefix}}",
+						"query"
+					],
+					"query": [
+						{
+							"key": "location[query]",
+							"value": "$geoWithin"
+						},
+						{
+							"key": "location[coordinates][0][0]",
+							"value": "0.000000"
+						},
+						{
+							"key": "location[coordinates][0][1]",
+							"value": "0.000000"
+						},
+						{
+							"key": "location[coordinates][1][0]",
+							"value": "0.000000"
+						},
+						{
+							"key": "location[coordinates][1][1]",
+							"value": "20.000000"
+						},
+						{
+							"key": "location[coordinates][2][0]",
+							"value": "15.000000"
+						},
+						{
+							"key": "location[coordinates][2][1]",
+							"value": "20.000000"
+						},
+						{
+							"key": "location[coordinates][3][0]",
+							"value": "15.000000"
+						},
+						{
+							"key": "location[coordinates][3][1]",
+							"value": "0.000000"
+						},
+						{
+							"key": "type",
+							"value": "temperature"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query (Near)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{indexer-host}}/{{api-prefix}}/query?location[query]=$near&location[point][0]=15.000000&location[point][1]=17.000000&location[maxDistance]=48.000&location[sort]=true&type=temperature",
+					"host": [
+						"{{indexer-host}}"
+					],
+					"path": [
+						"{{api-prefix}}",
+						"query"
+					],
+					"query": [
+						{
+							"key": "location[query]",
+							"value": "$near"
+						},
+						{
+							"key": "location[point][0]",
+							"value": "15.000000"
+						},
+						{
+							"key": "location[point][1]",
+							"value": "17.000000"
+						},
+						{
+							"key": "location[maxDistance]",
+							"value": "48.000"
+						},
+						{
+							"key": "location[sort]",
+							"value": "true"
+						},
+						{
+							"key": "type",
+							"value": "temperature"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Handle Notification",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subscriptionId\": \"5d7223f457102222dce6f40b\",\n    \"data\": [\n        {\n            \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"type\": \"http%3A%2F%2Fwww.w3.org%2F2003%2F01%2Fgeo%2Fwgs84_pos%23Point\",\n            \"https%3A%2F%2Furi.etsi.org%2Fngsi-ld%2Flocation\": {\n                \"type\": \"Point\",\n                \"coordinates\": [\n                    -3.803561677,\n                    43.462966417\n                ]\n            }\n        },\n        {\n            \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\n            \"type\": \"http%3A%2F%2Fwww.w3.org%2Fns%2Fsosa%2FSensor\",\n            \"https%3A%2F%2Furi.etsi.org%2Fngsi-ld%2Flocation\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"http%3A%2F%2Fpurl.oclc.org%2FNET%2FUNIS%2Ffiware%2Fiot-lite%23hasQuantityKind\": \"urn:ngsi-ld:QuantityKind:temperature\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{indexer-host}}/{{api-prefix}}/notification",
+					"host": [
+						"{{indexer-host}}"
+					],
+					"path": [
+						"{{api-prefix}}",
+						"notification"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c905c5a4-e208-4a4c-a333-ac707b137161",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e85cdaa0-e82d-4ec1-96fb-4523e8bc5e44",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "ca50dca1-295a-445a-8c30-d413498ee188",
+			"key": "api-prefix",
+			"value": "api",
+			"type": "string"
+		}
+	]
+}
