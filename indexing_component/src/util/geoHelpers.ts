@@ -41,7 +41,7 @@ export async function getCountriesInRegion(coordinates: number[][]): Promise<str
 
 /// Computes a circle that encloses the rectangle
 /// TODO: add support for arbitary polygons - compute minimal enclosing circle
-export function getBoundingCircle(coordinates: number[][]): { center: number[], radius: number } {
+export function getBoundingCircle(coordinates: number[][]): { center: number[]; radius: number } {
   const p1 = coordinates[0]; // An arbitary point
   const p2 = coordinates[2]; // Point opposite p1
   const d = [p2[0] - p1[0], p2[1] - p1[1]]; // Diagonal

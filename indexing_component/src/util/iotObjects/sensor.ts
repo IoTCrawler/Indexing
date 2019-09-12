@@ -1,4 +1,4 @@
-import { Entity, SensorType, locationPropName, hasQuantityKindPropName } from "../clients/ngsiObjects/ngsiNotification";
+import { Entity, locationPropName, hasQuantityKindPropName } from "../clients/ngsiObjects/ngsiNotification";
 
 export class Sensor {
     public readonly id: string;

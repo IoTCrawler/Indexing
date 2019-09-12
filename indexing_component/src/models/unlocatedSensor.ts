@@ -5,7 +5,7 @@ export const UnlocatedSensor = new Model<Sensor & { createdAt: Date }>('Unlocate
     id: { type: String, required: true },
     location: { type: String, required: true, index: true },
     quantityKind: { type: String, required: true },
-    createdAt: { type: Date, expires: 24 * 60 * 60, default: Date.now }
+    createdAt: { type: Date, expires: 24 * 60 * 60, default: (): number => Date.now() }
 }, {
     schemaOptions: {
         shardKey: { location: 'hashed' }

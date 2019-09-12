@@ -30,10 +30,11 @@ export class NotificationController implements Controller {
     /// Create a new point and update the sensor to reference the new point instead.
     public async handleNotification(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
         const notification: Notification = req.body;
-        let sensors: Sensor[] = [], points: Point[] = [];
+        let sensors: Sensor[] = [];
+        const points: Point[] = [];
 
         // Parse data
-        for (let entity of notification.data) {
+        for (const entity of notification.data) {
             switch (entity.type) {
                 case PointType:
                     points.push(new Point(entity));
@@ -71,7 +72,7 @@ export class NotificationController implements Controller {
                     return next(new HttpException(NOT_FOUND, `Subsctiption not found: ${notification.subscriptionId}`))
                 }
 
-                const client = new NgsiClient(broker!.host);
+                const client = new NgsiClient(broker.host);
                 const missingPoints = await client.getPoints(missingPointIds);
                 const missingPointInsertResult = await this.UpdateCachedPoints(missingPoints);
                 cachedPoints = cachedPoints.concat(missingPointInsertResult);

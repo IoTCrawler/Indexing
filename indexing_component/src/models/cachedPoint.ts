@@ -9,7 +9,7 @@ export interface CachedPoint {
         type: string;
         coordinates: number[];
     };
-    createdAt: Date
+    createdAt: Date;
 }
 
 export const CachedPoint = new Model<CachedPoint>('CachedPoint', {
@@ -27,7 +27,7 @@ export const CachedPoint = new Model<CachedPoint>('CachedPoint', {
             required: true
         }
     },
-    createdAt: { type: Date, expires: 24 * 60 * 60, default: Date.now } // Expire cache after 24 hours
+    createdAt: { type: Date, expires: 24 * 60 * 60, default: (): number => Date.now() } // Expire cache after 24 hours
 }, {
     schemaOptions: {
         shardKey: { pointId: 'hashed' }

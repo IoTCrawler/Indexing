@@ -19,8 +19,8 @@ interface WithinQuery extends LocationQuery {
     coordinates: number[][];
 }
 
-type NearQueryInput = Omit<Record<keyof NearQuery, string>, 'point' | 'query'> & { query: '$near', point: string[] };
-type WithinQueryInput = Omit<Record<keyof NearQuery, string>, 'coordinates' | 'query'> & { query: '$geoWithin', coordinates: string[][] };
+type NearQueryInput = Omit<Record<keyof NearQuery, string>, 'point' | 'query'> & { query: '$near'; point: string[] };
+type WithinQueryInput = Omit<Record<keyof NearQuery, string>, 'coordinates' | 'query'> & { query: '$geoWithin'; coordinates: string[][] };
 
 export interface SearchQuery {
     location: NearQueryInput | WithinQueryInput;
@@ -59,11 +59,9 @@ export class NearSearchRequest implements SearchRequest {
     }
 
     private async execSorted(): Promise<(IndexedSensor & { distance?: number })[]> {
-        console.debug('Executing sorted $near');
-
-        let geoNear = {
+        const geoNear = {
             key: 'location',
-            near: { type: 'Point', coordinates: this.location.point.map(x => parseFloat(x as any as string)) },
+            near: { type: 'Point', coordinates: this.location.point },
             distanceField: 'distance',
             spherical: true,
             query: {
@@ -82,7 +80,6 @@ export class NearSearchRequest implements SearchRequest {
     }
 
     private async execUnsorted(): Promise<IndexedSensor[]> {
-        console.debug('Executing unsorted $near');
         const pipiline = IndexedSensor.Model.find({
             countryISO: await getCountry(this.location.point),
             geoPartitionKey: '00',
@@ -123,10 +120,9 @@ export class WithinSearchRequest implements SearchRequest {
     }
 
     private async execSorted(): Promise<(IndexedSensor & { distance?: number })[]> {
-        console.debug('Executing sorted $geoWithin');
         const boundingCircle = getBoundingCircle(this.location.coordinates);
 
-        let pipiline = IndexedSensor.Model.aggregate([{
+        const pipiline = IndexedSensor.Model.aggregate([{
             $geoNear: {
                 key: 'location',
                 near: { type: 'Point', coordinates: boundingCircle.center },
@@ -153,7 +149,6 @@ export class WithinSearchRequest implements SearchRequest {
     }
 
     private async execUnsorted(): Promise<IndexedSensor[]> {
-        console.debug('Executing unsorted $geoWithin');
         const pipiline = IndexedSensor.Model.find({
             countryISO: { $in: await getCountriesInRegion(this.location.coordinates) },
             geoPartitionKey: '00',
