@@ -278,6 +278,9 @@ npm run dev
    npm run start
    ```
 
+**Alternative**
+To run the service inside a container follow the instructions in [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ### First time setup
 
 1. Install dependencies
@@ -285,7 +288,7 @@ npm run dev
    npm install
    ```
 2. Setup and Start mongo
-   MongoDB setup instructions are located in: [./mongodb/README.md](./mongodb/README.md).
+   MongoDB setup instructions are located in: [DEPLOYMENT.md](./DEPLOYMENT.md).
 3. Create a `.env` file (copy from `.env.example`) and set the variables appropriately
 4. Add country boundary data to the database
    ```bash

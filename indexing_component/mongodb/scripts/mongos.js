@@ -13,7 +13,7 @@ admin.createUser(
 
 admin.auth("mongo-admin", "<insert mongo-admin password from above>");
 
-sh.addShard("mongors1/mongors1n1");
+sh.addShard("mongors1/indexer-mongors1n1");
 sh.enableSharding("iotcrawler");
 
 iotcrawler = db.getSiblingDB("iotcrawler");
