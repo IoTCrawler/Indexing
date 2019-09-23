@@ -35,12 +35,16 @@ Returns a list of registered brokers.
         {
             "_id": "5d7223f48484ea3f3cd605bb",
             "host": "http://broker.iotcrawler.net",
-            "subscriptionId": "5d7926fb6218616932949fa4"
+            "subscriptionId": "5d7926fb6218616932949fa4",
+            "user":"admin", 
+            "password":"admin4djane"
         },
         {
             "_id": "5d79270db817cb5f0e401443",
             "host": "http://broker2.iotcrawler.net",
-            "subscriptionId": "5d792711f38f3f53d4a7aa98"
+            "subscriptionId": "5d792711f38f3f53d4a7aa98",
+            "user":"admin", 
+	        "password":"admin4djane"
         }
     ]
 }
@@ -59,7 +63,9 @@ Returns a registered broker.
 {
     "_id": "5d79270db817cb5f0e401443",
     "host": "http://broker2.iotcrawler.net",
-    "subscriptionId": "5d792711f38f3f53d4a7aa98"
+    "subscriptionId": "5d792711f38f3f53d4a7aa98",
+    "user":"admin", 
+	"password":"admin4djane"
 }
 ```
 
@@ -75,16 +81,21 @@ Currently indexer only subscribes to location and type of the sensor.
 **Request**
 ```json
 {
-	"host": "http://broker2.iotcrawler.net"
+    "host": "http://broker2.iotcrawler.net",
+    "user":"admin", 
+	"password":"admin4djane"
 }
 ```
 
 **Response**
+`Location: /api/broker/5d79270db817cb5f0e401443`
 ```json
 {
     "_id": "5d79270db817cb5f0e401443",
     "host": "http://broker2.iotcrawler.net",
-    "subscriptionId": "5d792711f38f3f53d4a7aa98"
+    "subscriptionId": "5d792711f38f3f53d4a7aa98",
+    "user":"admin", 
+	"password":"admin4djane"
 }
 ```
 
@@ -112,21 +123,35 @@ Updates the index according to content of the request. This API is intended to b
     "subscriptionId": "5d7223f457102222dce6f40b",
     "data": [
         {
-            "id": "urn:ngsi-ld:Point:demoLocation1",
-            "type": "http%3A%2F%2Fwww.w3.org%2F2003%2F01%2Fgeo%2Fwgs84_pos%23Point",
-            "https%3A%2F%2Furi.etsi.org%2Fngsi-ld%2Flocation": {
-                "type": "Point",
-                "coordinates": [
-                    -3.803561677,
-                    43.462966417
-                ]
-            }
-        },
-        {
-            "id": "urn:ngsi-ld:Sensor:demoSensor1",
-            "type": "http%3A%2F%2Fwww.w3.org%2Fns%2Fsosa%2FSensor",
-            "https%3A%2F%2Furi.etsi.org%2Fngsi-ld%2Flocation": "urn:ngsi-ld:Point:demoLocation1",
-            "http%3A%2F%2Fpurl.oclc.org%2FNET%2FUNIS%2Ffiware%2Fiot-lite%23hasQuantityKind": "urn:ngsi-ld:QuantityKind:temperature"
+            "subscriptionId": "5d7223f457102222dce6f40b",
+            "data": [
+                {
+                    "id": "urn:ngsi-ld:Point:demoLocation1",
+                    "type": "Point",
+                    "location": {
+                        "type": "GeoProperty",
+                        "value": {
+                            "type": "Point",
+                            "coordinates": [
+                                -3.803561677,
+                                43.462966417
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": "urn:ngsi-ld:Sensor:demoSensor1",
+                    "type": "Sensor",
+                    "location": {
+                        "type": "Relationship",
+                        "object": "urn:ngsi-ld:Point:demoLocation1"
+                    },
+                    "hasQuantityKind": {
+                        "type": "Relationship",
+                        "object": "urn:ngsi-ld:QuantityKind:temperature"
+                    }
+                }
+            ]
         }
     ]
 }

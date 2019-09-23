@@ -1,7 +1,7 @@
 import { Model } from '../util/model';
-import { Sensor } from '../util/iotObjects/sensor';
+import { SensorType } from '../util/iotObjects/sensor';
 
-export const UnlocatedSensor = new Model<Sensor & { createdAt: Date }>('UnlocatedSensor', {
+export const UnlocatedSensor = new Model<SensorType & { createdAt: Date }>('UnlocatedSensor', {
     id: { type: String, required: true },
     location: { type: String, required: true, index: true },
     quantityKind: { type: String, required: true },

@@ -1,13 +1,18 @@
-import { Entity, locationPropName, hasQuantityKindPropName } from "../clients/ngsiObjects/ngsiNotification";
+import { locationPropName, hasQuantityKindPropName, SensorType } from "./ontology";
+import { Entity, EntityBase } from "../clients/ngsiObjects/ngsiEntity";
+import { RelationshipType } from "../clients/ngsiObjects/ngsiProperty";
 
-export class Sensor {
-    public readonly id: string;
+export class Sensor extends EntityBase {
+    public readonly type: typeof SensorType;
     public readonly location: string;
     public readonly quantityKind: string;
 
-    constructor(ngsiPoint: Entity) {
-        this.id = ngsiPoint.id;
-        this.location = ngsiPoint[locationPropName] as string;
-        this.quantityKind = ngsiPoint[hasQuantityKindPropName] as string;
+    constructor(ngsiSensor: Entity) {
+        super(ngsiSensor.id);
+        this.type = SensorType;
+        this.location = (ngsiSensor[locationPropName] as RelationshipType).object;
+        this.quantityKind = (ngsiSensor[hasQuantityKindPropName] as RelationshipType).object;
     }
 }
+
+export type SensorType = Omit<Sensor, 'type' | '@context'>;

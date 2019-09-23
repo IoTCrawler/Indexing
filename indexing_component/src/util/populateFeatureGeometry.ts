@@ -5,10 +5,6 @@ import { CountryGeometry } from "../models/countryGeometry";
 // Connect to the database
 export const app = new App(0);
 
-// // Recreate the collection with the new contents
-CountryGeometry.Model.collection.drop();
-CountryGeometry.Model.createIndexes();
-
 interface GeoFeature {
     type: string;
     properties: {
@@ -21,12 +17,27 @@ interface GeoFeature {
     };
 }
 
-const countryGeometryDocs = countryGeometry.features.map((feature: GeoFeature) => new CountryGeometry.Model({
-    countryISO: feature.properties.ISO,
-    geometry: feature.geometry
-}));
+// Create country geometry collection
+async function run(): Promise<void> {
+    if (await CountryGeometry.Model.exists({})) {
+        console.log('Collection already exists: dropping...');
+        await CountryGeometry.Model.collection.drop();
+        await CountryGeometry.Model.createIndexes();
+    }
 
-CountryGeometry.Model.insertMany(countryGeometryDocs)
-    .then(() => console.info('Succesfully inserted country geometry into the database.'))
-    .catch(() => console.error('Failed to insert country geometry into the database'))
-    .finally(() => process.exit());
+    const countryGeometryDocs = countryGeometry.features.map((feature: GeoFeature) => new CountryGeometry.Model({
+        countryISO: feature.properties.ISO,
+        geometry: feature.geometry
+    }));
+
+    await CountryGeometry.Model.insertMany(countryGeometryDocs);
+}
+
+// Call the asynchronous function and wait for completion
+run().then(() => {
+    console.log('Succesfully inserted country geometry into the database');
+}).catch((err) => {
+    console.log(`Failed to insert country geometry into the database: ${err}`);
+}).finally(() => {
+    process.exit();
+});

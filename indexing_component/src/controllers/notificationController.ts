@@ -3,8 +3,9 @@
 import * as express from 'express';
 import { OK, NOT_FOUND } from 'http-status-codes';
 import { Controller } from '../util/Controller';
-import { Notification, PointType, SensorType } from '../util/clients/ngsiObjects/ngsiNotification';
-import { Sensor } from '../util/iotObjects/sensor';
+import { Notification } from '../util/clients/ngsiObjects/ngsiNotification';
+import { PointType, SensorType } from "../util/iotObjects/ontology";
+import { Sensor, SensorType as SensorT } from '../util/iotObjects/sensor';
 import { Point } from '../util/iotObjects/point';
 import { NgsiClient } from '../util/clients/ngsiClient';
 import { BrokerRegistration } from '../models/brokerRegistration';
@@ -13,6 +14,7 @@ import { CachedPoint } from '../models/cachedPoint';
 import { getCountry } from '../util/geoHelpers';
 import { IndexedSensor } from '../models/indexedSensor';
 import { UnlocatedSensor } from '../models/unlocatedSensor';
+import { Entity } from '../util/clients/ngsiObjects/ngsiEntity';
 
 export class NotificationController implements Controller {
     public readonly path = '/notification';
@@ -23,18 +25,18 @@ export class NotificationController implements Controller {
     }
 
     private intializeRoutes(): void {
-        this.router.post(`${this.path}`, this.handleNotification.bind(this));
+        this.router.all(`${this.path}`, this.handleNotification.bind(this));
     }
 
     /// Current implementation does not support updating point locations.
     /// Create a new point and update the sensor to reference the new point instead.
-    public async handleNotification(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    public async handleNotification(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {       
         const notification: Notification = req.body;
-        let sensors: Sensor[] = [];
+        let sensors: SensorT[] = [];
         const points: Point[] = [];
 
         // Parse data
-        for (const entity of notification.data) {
+        for (const entity of ([] as Entity[]).concat(notification.data)) {
             switch (entity.type) {
                 case PointType:
                     points.push(new Point(entity));
@@ -71,8 +73,10 @@ export class NotificationController implements Controller {
                 if (!broker) {
                     return next(new HttpException(NOT_FOUND, `Subsctiption not found: ${notification.subscriptionId}`))
                 }
+                
+                const client = new NgsiClient(broker);
+                await client.auth();
 
-                const client = new NgsiClient(broker.host);
                 const missingPoints = await client.getPoints(missingPointIds);
                 const missingPointInsertResult = await this.UpdateCachedPoints(missingPoints);
                 cachedPoints = cachedPoints.concat(missingPointInsertResult);

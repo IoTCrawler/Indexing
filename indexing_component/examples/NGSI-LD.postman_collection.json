@@ -1,0 +1,557 @@
+{
+	"info": {
+		"_postman_id": "81dc8b25-57c0-4a6a-a8a1-96382aaf1806",
+		"name": "NGSI-LD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Entities",
+			"item": [
+				{
+					"name": "iot-crawler",
+					"item": [
+						{
+							"name": "Sensor",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/ld+json",
+										"type": "text"
+									},
+									{
+										"key": "X-AUTH-TOKEN",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\r\n  \"type\": \"Sensor\",\r\n  \"hasUnit\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Unit:CEL\"\r\n  },\r\n  \"hasQuantityKind\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:QuantityKind:temperature\"\r\n  },\r\n  \"isHostedBy\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Platform:demoPlatform1\"\r\n  },\r\n  \"location\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+									"host": [
+										"{{ngsi-host}}"
+									],
+									"path": [
+										"{{ngsi-prefix}}",
+										"entities",
+										""
+									]
+								},
+								"description": "Configuration"
+							},
+							"response": []
+						},
+						{
+							"name": "StreamObservation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/ld+json"
+									},
+									{
+										"key": "X-AUTH-TOKEN",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:StreamObservation:demoObservation1\",\r\n  \"type\": \"StreamObservation\",\r\n  \"madeBySensor\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Sensor:demoSensor1\"\r\n  },\r\n  \"belongsTo\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:IotStream:demoIotStream1\"\r\n  },\r\n  \"hasSimpleResult\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": 123\r\n  },\r\n  \"resultTime\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": {\r\n\t\t\"@type\": \"TemporalProperty\",\r\n\t\t\"@value\": \"2019-09-19T12:22:37Z\"\r\n\t}\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+									"host": [
+										"{{ngsi-host}}"
+									],
+									"path": [
+										"{{ngsi-prefix}}",
+										"entities",
+										""
+									]
+								},
+								"description": "Configuration"
+							},
+							"response": []
+						},
+						{
+							"name": "QuantityKind",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/ld+json"
+									},
+									{
+										"key": "X-AUTH-TOKEN",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:QuantityKind:temperature\",\r\n  \"type\": \"QuantityKind\",\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+									"host": [
+										"{{ngsi-host}}"
+									],
+									"path": [
+										"{{ngsi-prefix}}",
+										"entities",
+										""
+									]
+								},
+								"description": "Configuration"
+							},
+							"response": []
+						},
+						{
+							"name": "Unit",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/ld+json"
+									},
+									{
+										"key": "X-AUTH-TOKEN",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Unit:CEL\",\r\n  \"type\": \"Unit\",\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+									"host": [
+										"{{ngsi-host}}"
+									],
+									"path": [
+										"{{ngsi-prefix}}",
+										"entities",
+										""
+									]
+								},
+								"description": "Configuration"
+							},
+							"response": []
+						},
+						{
+							"name": "Platform",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/ld+json"
+									},
+									{
+										"key": "X-AUTH-TOKEN",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Platform:demoPlatform1\",\r\n  \"type\": \"Platform\",\r\n  \"location\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+									"host": [
+										"{{ngsi-host}}"
+									],
+									"path": [
+										"{{ngsi-prefix}}",
+										"entities",
+										""
+									]
+								},
+								"description": "Configuration"
+							},
+							"response": []
+						},
+						{
+							"name": "Point",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/ld+json"
+									},
+									{
+										"key": "X-AUTH-TOKEN",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\r\n  \"type\": \"Point\",\r\n  \"location\": {\r\n\t\"type\": \"GeoProperty\",\r\n\t\"value\": {\r\n\t\t\"type\": \"Point\",\r\n\t\t\"coordinates\": [ -3.80356167695194, 43.46296641666926 ]\r\n\t}\r\n  },\r\n  \"alt\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": 6\r\n  },\r\n  \"relativeLocation\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": \"http://www.geonames.org/2624652\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+									"host": [
+										"{{ngsi-host}}"
+									],
+									"path": [
+										"{{ngsi-prefix}}",
+										"entities",
+										""
+									]
+								},
+								"description": "Configuration"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Create Entity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/ld+json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"urn:ngsi-ld:StreamObservation:demoObservation1\",\r\n  \"type\": \"StreamObservation\",\r\n  \"hasSimpleResult\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": 123\r\n  },\r\n  \"resultTime\": {\r\n\t\"type\": \"TemporalProperty\",\r\n\t\"value\": \"2019-09-19T12:22:37Z\"\r\n  },\r\n  \"isHostedBy\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Platform:demoPlatform1\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
+							"host": [
+								"{{ngsi-host}}"
+							],
+							"path": [
+								"{{ngsi-prefix}}",
+								"entities",
+								""
+							]
+						},
+						"description": "Configuration"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Entity",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/urn:ngsi-ld:Sensor:demoSensor1",
+							"host": [
+								"{{ngsi-host}}"
+							],
+							"path": [
+								"{{ngsi-prefix}}",
+								"entities",
+								"urn:ngsi-ld:Sensor:demoSensor1"
+							]
+						},
+						"description": "Configuration"
+					},
+					"response": []
+				},
+				{
+					"name": "List Entities",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/ld+json",
+								"type": "text"
+							},
+							{
+								"key": "Link",
+								"value": "<{{ld-context}}>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities",
+							"host": [
+								"{{ngsi-host}}"
+							],
+							"path": [
+								"{{ngsi-prefix}}",
+								"entities"
+							]
+						},
+						"description": "Configuration"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entity Operations",
+			"item": [
+				{
+					"name": "Create (Bulk)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/ld+json"
+							},
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n\t  \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\r\n\t  \"type\": \"Sensor\",\r\n\t  \"hasUnit\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:Unit:CEL\"\r\n\t  },\r\n\t  \"hasQuantityKind\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:QuantityKind:temperature\"\r\n\t  },\r\n\t  \"isHostedBy\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:Platform:demoPlatform1\"\r\n\t  },\r\n\t  \"location\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\r\n\t  },\r\n\t  \"@context\": [\r\n\t\t\"{{ld-context}}\",\r\n\t\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n\t  ]\r\n\t},\r\n\t{\r\n\t  \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\r\n\t  \"type\": \"Point\",\r\n\t  \"location\": {\r\n\t\t\"type\": \"GeoProperty\",\r\n\t\t\"value\": {\r\n\t\t\t\"type\": \"Point\",\r\n\t\t\t\"coordinates\": [ -3.80356167695194, 43.46296641666926 ]\r\n\t\t}\r\n\t  },\r\n\t  \"alt\": {\r\n\t\t\"type\": \"Property\",\r\n\t\t\"value\": 6\r\n\t  },\r\n\t  \"relativeLocation\": {\r\n\t\t\"type\": \"Property\",\r\n\t\t\"value\": \"http://www.geonames.org/2624652\"\r\n\t  },\r\n\t  \"@context\": [\r\n\t\t\"{{ld-context}}\",\r\n\t\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n\t  ]\r\n\t}\r\n]"
+						},
+						"url": {
+							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entityOperations/create",
+							"host": [
+								"{{ngsi-host}}"
+							],
+							"path": [
+								"{{ngsi-prefix}}",
+								"entityOperations",
+								"create"
+							]
+						},
+						"description": "Configuration"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete (Bulk)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/ld+json"
+							},
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{ \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\" },\r\n\t{ \"id\": \"urn:ngsi-ld:Point:demoLocation1\" }\r\n]"
+						},
+						"url": {
+							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entityOperations/delete",
+							"host": [
+								"{{ngsi-host}}"
+							],
+							"path": [
+								"{{ngsi-prefix}}",
+								"entityOperations",
+								"delete"
+							]
+						},
+						"description": "Configuration"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"admin\", \n\t\"password\":\"admin4djane\"\n}"
+				},
+				"url": {
+					"raw": "{{ngsi-host}}/login",
+					"host": [
+						"{{ngsi-host}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Configuration"
+			},
+			"response": []
+		},
+		{
+			"name": "CSource Registrations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-AUTH-TOKEN",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{ngsi-host}}/{{ngsi-prefix}}/csourceRegistrations/",
+					"host": [
+						"{{ngsi-host}}"
+					],
+					"path": [
+						"{{ngsi-prefix}}",
+						"csourceRegistrations",
+						""
+					]
+				},
+				"description": "Configuration"
+			},
+			"response": []
+		},
+		{
+			"name": "Subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-AUTH-TOKEN",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{ngsi-host}}/{{ngsi-prefix}}/subscriptions/",
+					"host": [
+						"{{ngsi-host}}"
+					],
+					"path": [
+						"{{ngsi-prefix}}",
+						"subscriptions",
+						""
+					]
+				},
+				"description": "Configuration"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Subscription",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-AUTH-TOKEN",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"5d87e4b0290ded0964e8bf43\",\r\n  \"type\": \"Subscription\",\r\n  \"entities\": [ {\"type\": \"Sensor\"}, {\"type\": \"Point\"} ],\r\n  \"watchedAttributes\": [ \"location\", \"hasQuantityKind\" ],\r\n  \"notification\": { \r\n    \"endpoint\": {\r\n      \"uri\": \"http://docker.fo.win.localhost:3000\",\r\n      \"accept\": \"application/json\"\r\n    }, \r\n    \"format\": \"normalized\",\r\n    \"attributes\": [\"location\", \"hasQuantityKind\"]\r\n  },\r\n  \"@context\": [\r\n    \"http://localhost:1029/context.jsonld\",\r\n    \"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "{{ngsi-host}}/{{ngsi-prefix}}/subscriptions",
+					"host": [
+						"{{ngsi-host}}"
+					],
+					"path": [
+						"{{ngsi-prefix}}",
+						"subscriptions"
+					]
+				},
+				"description": "Configuration"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "170a630c-a95c-41a1-87c4-dc3781cbb14c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "42a3e2ea-fbcb-43b9-a077-bf6518ffd26c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7e95a942-99c8-4514-a67e-abe004b38730",
+			"key": "ngsi-prefix",
+			"value": "ngsi-ld/v1",
+			"type": "string"
+		}
+	]
+}

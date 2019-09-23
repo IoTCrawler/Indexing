@@ -76,7 +76,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"host\": \"http://localhost:1026\"\n}"
+							"raw": "{\n\t\"host\": \"http://localhost:1030\",\n\t\"user\":\"admin\", \n\t\"password\":\"admin4djane\"\n}"
 						},
 						"url": {
 							"raw": "{{indexer-host}}/{{api-prefix}}/broker",
@@ -253,7 +253,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"subscriptionId\": \"5d7223f457102222dce6f40b\",\n    \"data\": [\n        {\n            \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"type\": \"http%3A%2F%2Fwww.w3.org%2F2003%2F01%2Fgeo%2Fwgs84_pos%23Point\",\n            \"https%3A%2F%2Furi.etsi.org%2Fngsi-ld%2Flocation\": {\n                \"type\": \"Point\",\n                \"coordinates\": [\n                    -3.803561677,\n                    43.462966417\n                ]\n            }\n        },\n        {\n            \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\n            \"type\": \"http%3A%2F%2Fwww.w3.org%2Fns%2Fsosa%2FSensor\",\n            \"https%3A%2F%2Furi.etsi.org%2Fngsi-ld%2Flocation\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"http%3A%2F%2Fpurl.oclc.org%2FNET%2FUNIS%2Ffiware%2Fiot-lite%23hasQuantityKind\": \"urn:ngsi-ld:QuantityKind:temperature\"\n        }\n    ]\n}"
+					"raw": "{\n    \"subscriptionId\": \"5d7223f457102222dce6f40b\",\n    \"data\": [\n        {\n            \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"type\": \"Point\",\n            \"location\": {\n            \t\"type\": \"GeoProperty\",\n            \t\"value\": {\n\t                \"type\": \"Point\",\n\t                \"coordinates\": [\n\t                    -3.803561677,\n\t                    43.462966417\n\t                ]\n            \t}\n            }\n        },\n        {\n            \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\n            \"type\": \"Sensor\",\n            \"location\": {\n            \t\"type\": \"Relationship\",\n            \t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\n        \t},\n            \"hasQuantityKind\": {\n            \t\"type\": \"Relationship\",\n            \t\"object\": \"urn:ngsi-ld:QuantityKind:temperature\"\n        \t}\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "{{indexer-host}}/{{api-prefix}}/notification",
@@ -293,7 +293,7 @@
 	],
 	"variable": [
 		{
-			"id": "ca50dca1-295a-445a-8c30-d413498ee188",
+			"id": "a2dc384f-2326-4e75-8bf5-1be35460bf1b",
 			"key": "api-prefix",
 			"value": "api",
 			"type": "string"
