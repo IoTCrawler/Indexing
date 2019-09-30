@@ -3,7 +3,7 @@ import { CREATED, NO_CONTENT, OK } from 'http-status-codes';
 import { Subscription } from './ngsiObjects/ngsiSubscription';
 import { NgsiError } from './ngsiObjects/ngsiError';
 import { env } from '../validateEnv';
-import { SensorType, PointType, locationPropName, hasQuantityKindPropName } from "../iotObjects/ontology";
+import { SensorType, PointType, locationPropName, sensorObservesPropName } from "../iotObjects/ontology";
 import { Point } from '../iotObjects/point';
 import { BrokerRegistration } from '../../models/brokerRegistration';
 import * as mongoose from 'mongoose';
@@ -53,8 +53,9 @@ export class NgsiClient {
                 }
             ],
             watchedAttributes: [
+                'location',
                 locationPropName,
-                hasQuantityKindPropName
+                sensorObservesPropName
             ],
             notification: {
                 endpoint: {
@@ -63,12 +64,12 @@ export class NgsiClient {
                 },
                 format: 'normalized',
                 attributes: [
+                    'location',
                     locationPropName,
-                    hasQuantityKindPropName
+                    sensorObservesPropName
                 ]
             },
             '@context': [
-                env.LD_CONTEXT,
                 'https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld'
             ]
         };

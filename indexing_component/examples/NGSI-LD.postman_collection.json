@@ -30,7 +30,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\r\n  \"type\": \"Sensor\",\r\n  \"hasUnit\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Unit:CEL\"\r\n  },\r\n  \"hasQuantityKind\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:QuantityKind:temperature\"\r\n  },\r\n  \"isHostedBy\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Platform:demoPlatform1\"\r\n  },\r\n  \"location\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+									"raw": "{\n    \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\n    \"type\": \"sosa:Sensor\",\n    \"sosa:observes\": {\n      \"type\": \"Relationship\",\n      \"object\": \"urn:ngsi-ld:ObservableProperty:AvailableParkingSpaces\"\n    },\n    \"geo:location\": {\n      \"type\": \"Relationship\",\n      \"object\": \"urn:ngsi-ld:Point:demoLocation1\"\n    },\n    \"@context\": {\n        \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\n        \"sosa\": \"http://www.w3.org/ns/sosa/\",\n        \"Sensor\": \"http://www.w3.org/ns/sosa/Sensor\",\n        \"observes\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/observes\",\n            \"@type\": \"@id\"\n        },\n        \"location\": {\n            \"@id\": \"http://www.w3.org/2003/01/geo/wgs84_pos#location\",\n            \"@type\": \"@id\"\n        }\n    }\n}\n"
 								},
 								"url": {
 									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
@@ -48,7 +48,7 @@
 							"response": []
 						},
 						{
-							"name": "StreamObservation",
+							"name": "ObservableProperty",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -60,13 +60,13 @@
 									},
 									{
 										"key": "X-AUTH-TOKEN",
-										"value": "{{token}}",
-										"type": "text"
+										"type": "text",
+										"value": "{{token}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:StreamObservation:demoObservation1\",\r\n  \"type\": \"StreamObservation\",\r\n  \"madeBySensor\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Sensor:demoSensor1\"\r\n  },\r\n  \"belongsTo\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:IotStream:demoIotStream1\"\r\n  },\r\n  \"hasSimpleResult\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": 123\r\n  },\r\n  \"resultTime\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": {\r\n\t\t\"@type\": \"TemporalProperty\",\r\n\t\t\"@value\": \"2019-09-19T12:22:37Z\"\r\n\t}\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+									"raw": "{\n    \"id\": \"urn:ngsi-ld:ObservableProperty:AvailableParkingSpaces\",\n    \"type\": \"sosa:ObservableProperty\",\n    \"@context\": {\n        \"sosa\": \"http://www.w3.org/ns/sosa/\",\n        \"ObservableProperty\": \"http://www.w3.org/ns/sosa/Observation\"\n    }\n}\n"
 								},
 								"url": {
 									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
@@ -84,7 +84,7 @@
 							"response": []
 						},
 						{
-							"name": "QuantityKind",
+							"name": "Observation",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -96,85 +96,13 @@
 									},
 									{
 										"key": "X-AUTH-TOKEN",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:QuantityKind:temperature\",\r\n  \"type\": \"QuantityKind\",\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
-								},
-								"url": {
-									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
-									"host": [
-										"{{ngsi-host}}"
-									],
-									"path": [
-										"{{ngsi-prefix}}",
-										"entities",
-										""
-									]
-								},
-								"description": "Configuration"
-							},
-							"response": []
-						},
-						{
-							"name": "Unit",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
 										"type": "text",
-										"value": "application/ld+json"
-									},
-									{
-										"key": "X-AUTH-TOKEN",
-										"value": "{{token}}",
-										"type": "text"
+										"value": "{{token}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Unit:CEL\",\r\n  \"type\": \"Unit\",\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
-								},
-								"url": {
-									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
-									"host": [
-										"{{ngsi-host}}"
-									],
-									"path": [
-										"{{ngsi-prefix}}",
-										"entities",
-										""
-									]
-								},
-								"description": "Configuration"
-							},
-							"response": []
-						},
-						{
-							"name": "Platform",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/ld+json"
-									},
-									{
-										"key": "X-AUTH-TOKEN",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Platform:demoPlatform1\",\r\n  \"type\": \"Platform\",\r\n  \"location\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+									"raw": "{\n    \"id\": \"urn:ngsi-ld:Observation:demoObservation1\",\n    \"type\": \"sosa:Observation\",\n    \"sosa:hasSimpleResult\": {\n      \"type\": \"Property\",\n      \"value\": 123\n    },\n    \"sosa:madeBySensor\": {\n      \"type\": \"Relationship\",\n      \"object\": \"urn:ngsi-ld:Sensor:demoSensor1\"\n    },\n    \"sosa:resultTime\": {\n      \"type\": \"TemporalProperty\",\n      \"value\": \"2019-09-27T09:52:37Z\"\n    },\n    \"sosa:observedProperty\": {\n        \"type\": \"Relationship\",\n        \"object\": \"urn:ngsi-ld:ObservableProperty:AvailableParkingSpaces\"\n    },\n    \"@context\": {\n        \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\n        \"sosa\": \"http://www.w3.org/ns/sosa/\",\n        \"Observation\": \"http://www.w3.org/ns/sosa/Observation\",\n        \"hasSimpleResult\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/hasSimpleResult\"\n        },\n        \"madeBySensor\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/observes\",\n            \"@type\": \"@id\"\n        },\n        \"resultTime\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/resultTime\"\n        },\n        \"observedProperty\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/observedProperty\",\n            \"@type\": \"@id\"\n        }\n    }\n}\n"
 								},
 								"url": {
 									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
@@ -210,7 +138,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\r\n  \"type\": \"Point\",\r\n  \"location\": {\r\n\t\"type\": \"GeoProperty\",\r\n\t\"value\": {\r\n\t\t\"type\": \"Point\",\r\n\t\t\"coordinates\": [ -3.80356167695194, 43.46296641666926 ]\r\n\t}\r\n  },\r\n  \"alt\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": 6\r\n  },\r\n  \"relativeLocation\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": \"http://www.geonames.org/2624652\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+									"raw": "{\n    \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\n    \"type\": \"geo:Point\",\n    \"location\": {\n      \"type\": \"GeoProperty\",\n      \"value\": {\n        \"type\": \"Point\",\n        \"coordinates\": [ -3.80356167695194, 43.46296641666926 ]\n      }\n    },\n    \"@context\": {\n        \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\n        \"Point\": \"http://www.w3.org/2003/01/geo/wgs84_pos#Point\"\n    }\n}\n"
 								},
 								"url": {
 									"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
@@ -228,6 +156,7 @@
 							"response": []
 						}
 					],
+					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
 				{
@@ -249,7 +178,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"urn:ngsi-ld:StreamObservation:demoObservation1\",\r\n  \"type\": \"StreamObservation\",\r\n  \"hasSimpleResult\": {\r\n\t\"type\": \"Property\",\r\n\t\"value\": 123\r\n  },\r\n  \"resultTime\": {\r\n\t\"type\": \"TemporalProperty\",\r\n\t\"value\": \"2019-09-19T12:22:37Z\"\r\n  },\r\n  \"isHostedBy\": {\r\n\t\"type\": \"Relationship\",\r\n\t\"object\": \"urn:ngsi-ld:Platform:demoPlatform1\"\r\n  },\r\n  \"@context\": [\r\n\t\"{{ld-context}}\",\r\n\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+							"raw": "{\n    \"id\": \"urn:ngsi-ld:Observation:demoObservation1\",\n    \"type\": \"sosa:Observation\",\n    \"sosa:hasSimpleResult\": {\n      \"type\": \"Property\",\n      \"value\": 123\n    },\n    \"sosa:madeBySensor\": {\n      \"type\": \"Relationship\",\n      \"object\": \"urn:ngsi-ld:Sensor:demoSensor1\"\n    },\n    \"sosa:resultTime\": {\n      \"type\": \"TemporalProperty\",\n      \"value\": \"2019-09-27T09:52:37Z\"\n    },\n    \"sosa:observedProperty\": {\n        \"type\": \"Relationship\",\n        \"object\": \"urn:ngsi-ld:ObservableProperty:AvailableParkingSpaces\"\n    },\n    \"@context\": {\n        \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\n        \"sosa\": \"http://www.w3.org/ns/sosa/\",\n        \"Observation\": \"http://www.w3.org/ns/sosa/Observation\",\n        \"hasSimpleResult\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/hasSimpleResult\"\n        },\n        \"madeBySensor\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/observes\",\n            \"@type\": \"@id\"\n        },\n        \"resultTime\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/resultTime\"\n        },\n        \"observedProperty\": {\n            \"@id\": \"http://www.w3.org/ns/sosa/observedProperty\",\n            \"@type\": \"@id\"\n        }\n    }\n}\n"
 						},
 						"url": {
 							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entities/",
@@ -327,7 +256,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Entity Operations",
@@ -351,7 +281,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n\t{\r\n\t  \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\r\n\t  \"type\": \"Sensor\",\r\n\t  \"hasUnit\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:Unit:CEL\"\r\n\t  },\r\n\t  \"hasQuantityKind\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:QuantityKind:temperature\"\r\n\t  },\r\n\t  \"isHostedBy\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:Platform:demoPlatform1\"\r\n\t  },\r\n\t  \"location\": {\r\n\t\t\"type\": \"Relationship\",\r\n\t\t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\r\n\t  },\r\n\t  \"@context\": [\r\n\t\t\"{{ld-context}}\",\r\n\t\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n\t  ]\r\n\t},\r\n\t{\r\n\t  \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\r\n\t  \"type\": \"Point\",\r\n\t  \"location\": {\r\n\t\t\"type\": \"GeoProperty\",\r\n\t\t\"value\": {\r\n\t\t\t\"type\": \"Point\",\r\n\t\t\t\"coordinates\": [ -3.80356167695194, 43.46296641666926 ]\r\n\t\t}\r\n\t  },\r\n\t  \"alt\": {\r\n\t\t\"type\": \"Property\",\r\n\t\t\"value\": 6\r\n\t  },\r\n\t  \"relativeLocation\": {\r\n\t\t\"type\": \"Property\",\r\n\t\t\"value\": \"http://www.geonames.org/2624652\"\r\n\t  },\r\n\t  \"@context\": [\r\n\t\t\"{{ld-context}}\",\r\n\t\t\"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n\t  ]\r\n\t}\r\n]"
+							"raw": "[\r\n\t{\r\n\t    \"id\": \"urn:ngsi-ld:Observation:demoObservation1\",\r\n\t    \"type\": \"sosa:Observation\",\r\n\t    \"sosa:hasSimpleResult\": {\r\n\t      \"type\": \"Property\",\r\n\t      \"value\": 123\r\n\t    },\r\n\t    \"sosa:madeBySensor\": {\r\n\t      \"type\": \"Relationship\",\r\n\t      \"object\": \"urn:ngsi-ld:Sensor:demoSensor1\"\r\n\t    },\r\n\t    \"sosa:resultTime\": {\r\n\t      \"type\": \"TemporalProperty\",\r\n\t      \"value\": \"2019-09-27T09:52:37Z\"\r\n\t    },\r\n\t    \"sosa:observedProperty\": {\r\n\t        \"type\": \"Relationship\",\r\n\t        \"object\": \"urn:ngsi-ld:ObservableProperty:AvailableParkingSpaces\"\r\n\t    },\r\n\t    \"@context\": {\r\n\t        \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\r\n\t        \"sosa\": \"http://www.w3.org/ns/sosa/\",\r\n\t        \"Observation\": \"http://www.w3.org/ns/sosa/Observation\",\r\n\t        \"hasSimpleResult\": {\r\n\t            \"@id\": \"http://www.w3.org/ns/sosa/hasSimpleResult\"\r\n\t        },\r\n\t        \"madeBySensor\": {\r\n\t            \"@id\": \"http://www.w3.org/ns/sosa/observes\",\r\n\t            \"@type\": \"@id\"\r\n\t        },\r\n\t        \"resultTime\": {\r\n\t            \"@id\": \"http://www.w3.org/ns/sosa/resultTime\"\r\n\t        },\r\n\t        \"observedProperty\": {\r\n\t            \"@id\": \"http://www.w3.org/ns/sosa/observedProperty\",\r\n\t            \"@type\": \"@id\"\r\n\t        }\r\n\t    }\r\n\t},\r\n\t{\r\n\t    \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\r\n\t    \"type\": \"geo:Point\",\r\n\t    \"location\": {\r\n\t      \"type\": \"GeoProperty\",\r\n\t      \"value\": {\r\n\t        \"type\": \"Point\",\r\n\t        \"coordinates\": [ -3.80356167695194, 43.46296641666926 ]\r\n\t      }\r\n\t    },\r\n\t    \"@context\": {\r\n\t        \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\r\n\t        \"Point\": \"http://www.w3.org/2003/01/geo/wgs84_pos#Point\"\r\n\t    }\r\n\t}\r\n]"
 						},
 						"url": {
 							"raw": "{{ngsi-host}}/{{ngsi-prefix}}/entityOperations/create",
@@ -507,7 +437,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"id\": \"5d87e4b0290ded0964e8bf43\",\r\n  \"type\": \"Subscription\",\r\n  \"entities\": [ {\"type\": \"Sensor\"}, {\"type\": \"Point\"} ],\r\n  \"watchedAttributes\": [ \"location\", \"hasQuantityKind\" ],\r\n  \"notification\": { \r\n    \"endpoint\": {\r\n      \"uri\": \"http://docker.fo.win.localhost:3000\",\r\n      \"accept\": \"application/json\"\r\n    }, \r\n    \"format\": \"normalized\",\r\n    \"attributes\": [\"location\", \"hasQuantityKind\"]\r\n  },\r\n  \"@context\": [\r\n    \"http://localhost:1029/context.jsonld\",\r\n    \"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld\"\r\n  ]\r\n}"
+					"raw": "{\r\n  \"id\": \"5d87e4b0290ded0964e8bf43\",\r\n  \"type\": \"Subscription\",\r\n  \"entities\": [ {\"type\": \"sosa:Sensor\"}, {\"type\": \"geo:Point\"} ],\r\n  \"watchedAttributes\": [\r\n  \t\"location\",\r\n  \t\"geo:location\",\r\n  \t\"sosa:observes\"\r\n  ],\r\n  \"notification\": { \r\n    \"endpoint\": {\r\n      \"uri\": \"http://docker.fo.win.localhost:3000\",\r\n      \"accept\": \"application/json\"\r\n    }, \r\n    \"format\": \"normalized\",\r\n    \"attributes\": [\r\n    \t\"location\",\r\n    \t\"geo:location\",\r\n    \t\"sosa:observes\"\r\n\t]\r\n  },\r\n  \"@context\": {\r\n    \"geo\": \"http://www.w3.org/2003/01/geo/wgs84_pos#\",\r\n    \"sosa\": \"http://www.w3.org/ns/sosa/\"\r\n  }\r\n}"
 				},
 				"url": {
 					"raw": "{{ngsi-host}}/{{ngsi-prefix}}/subscriptions",
@@ -548,10 +478,11 @@
 	],
 	"variable": [
 		{
-			"id": "7e95a942-99c8-4514-a67e-abe004b38730",
+			"id": "a1132e2e-2904-4925-a954-87e317e2171a",
 			"key": "ngsi-prefix",
 			"value": "ngsi-ld/v1",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

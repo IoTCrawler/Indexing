@@ -63,6 +63,9 @@ export class BrokerController implements Controller {
         } catch (e) {
             return next(new HttpException(INTERNAL_SERVER_ERROR, `Failed to create Broker Registration in the database: ${e.message}`, e));
         }
+
+        // TODO Retrieve Initial data from the broker
+        
     }
 
     public async getBrokerRegistration(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {

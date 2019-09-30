@@ -9,30 +9,6 @@
 			"name": "broker",
 			"item": [
 				{
-					"name": "List Registered Brokers",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{indexer-host}}/{{api-prefix}}/broker",
-							"host": [
-								"{{indexer-host}}"
-							],
-							"path": [
-								"{{api-prefix}}",
-								"broker"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get Registered Broker",
 					"request": {
 						"method": "GET",
@@ -52,6 +28,30 @@
 								"{{api-prefix}}",
 								"broker",
 								"{{broker-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Registered Brokers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{indexer-host}}/{{api-prefix}}/broker",
+							"host": [
+								"{{indexer-host}}"
+							],
+							"path": [
+								"{{api-prefix}}",
+								"broker"
 							]
 						}
 					},
@@ -116,7 +116,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Query (Within)",
@@ -130,7 +131,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{indexer-host}}/{{api-prefix}}/query?location[query]=$geoWithin&location[coordinates][0][0]=0.000000&location[coordinates][0][1]=0.000000&location[coordinates][1][0]=0.000000&location[coordinates][1][1]=20.000000&location[coordinates][2][0]=15.000000&location[coordinates][2][1]=20.000000&location[coordinates][3][0]=15.000000&location[coordinates][3][1]=0.000000&type=temperature",
+					"raw": "{{indexer-host}}/{{api-prefix}}/query?location[query]=$geoWithin&location[coordinates][0][0]=-3.000000&location[coordinates][0][1]=40.000000&location[coordinates][1][0]=-3.000000&location[coordinates][1][1]=45.000000&location[coordinates][2][0]=-4.000000&location[coordinates][2][1]=45.000000&location[coordinates][3][0]=-4.000000&location[coordinates][3][1]=40.000000&observes=urn:ngsi-ld:QuantityKind:temperature",
 					"host": [
 						"{{indexer-host}}"
 					],
@@ -145,39 +146,39 @@
 						},
 						{
 							"key": "location[coordinates][0][0]",
-							"value": "0.000000"
+							"value": "-3.000000"
 						},
 						{
 							"key": "location[coordinates][0][1]",
-							"value": "0.000000"
+							"value": "40.000000"
 						},
 						{
 							"key": "location[coordinates][1][0]",
-							"value": "0.000000"
+							"value": "-3.000000"
 						},
 						{
 							"key": "location[coordinates][1][1]",
-							"value": "20.000000"
+							"value": "45.000000"
 						},
 						{
 							"key": "location[coordinates][2][0]",
-							"value": "15.000000"
+							"value": "-4.000000"
 						},
 						{
 							"key": "location[coordinates][2][1]",
-							"value": "20.000000"
+							"value": "45.000000"
 						},
 						{
 							"key": "location[coordinates][3][0]",
-							"value": "15.000000"
+							"value": "-4.000000"
 						},
 						{
 							"key": "location[coordinates][3][1]",
-							"value": "0.000000"
+							"value": "40.000000"
 						},
 						{
-							"key": "type",
-							"value": "temperature"
+							"key": "observes",
+							"value": "urn:ngsi-ld:QuantityKind:temperature"
 						}
 					]
 				}
@@ -196,7 +197,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{indexer-host}}/{{api-prefix}}/query?location[query]=$near&location[point][0]=15.000000&location[point][1]=17.000000&location[maxDistance]=48.000&location[sort]=true&type=temperature",
+					"raw": "{{indexer-host}}/{{api-prefix}}/query?location[query]=$near&location[point][0]=-3.81356167695194&location[point][1]=43.46296641666926&location[maxDistance]=1000.000&location[sort]=true&observes=urn:ngsi-ld:QuantityKind:temperature",
 					"host": [
 						"{{indexer-host}}"
 					],
@@ -211,23 +212,23 @@
 						},
 						{
 							"key": "location[point][0]",
-							"value": "15.000000"
+							"value": "-3.81356167695194"
 						},
 						{
 							"key": "location[point][1]",
-							"value": "17.000000"
+							"value": "43.46296641666926"
 						},
 						{
 							"key": "location[maxDistance]",
-							"value": "48.000"
+							"value": "1000.000"
 						},
 						{
 							"key": "location[sort]",
 							"value": "true"
 						},
 						{
-							"key": "type",
-							"value": "temperature"
+							"key": "observes",
+							"value": "urn:ngsi-ld:QuantityKind:temperature"
 						}
 					]
 				}
@@ -253,7 +254,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"subscriptionId\": \"5d7223f457102222dce6f40b\",\n    \"data\": [\n        {\n            \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"type\": \"Point\",\n            \"location\": {\n            \t\"type\": \"GeoProperty\",\n            \t\"value\": {\n\t                \"type\": \"Point\",\n\t                \"coordinates\": [\n\t                    -3.803561677,\n\t                    43.462966417\n\t                ]\n            \t}\n            }\n        },\n        {\n            \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\n            \"type\": \"Sensor\",\n            \"location\": {\n            \t\"type\": \"Relationship\",\n            \t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\n        \t},\n            \"hasQuantityKind\": {\n            \t\"type\": \"Relationship\",\n            \t\"object\": \"urn:ngsi-ld:QuantityKind:temperature\"\n        \t}\n        }\n    ]\n}"
+					"raw": "{\n    \"subscriptionId\": \"5d7223f457102222dce6f40b\",\n    \"data\": [\n        {\n            \"id\": \"urn:ngsi-ld:Point:demoLocation1\",\n            \"type\": \"geo:Point\",\n            \"location\": {\n            \t\"type\": \"GeoProperty\",\n            \t\"value\": {\n\t                \"type\": \"Point\",\n\t                \"coordinates\": [\n\t                    -3.803561677,\n\t                    43.462966417\n\t                ]\n            \t}\n            }\n        },\n        {\n            \"id\": \"urn:ngsi-ld:Sensor:demoSensor1\",\n            \"type\": \"sosa:Sensor\",\n            \"location\": {\n            \t\"type\": \"Relationship\",\n            \t\"object\": \"urn:ngsi-ld:Point:demoLocation1\"\n        \t},\n            \"sosa:observes\": {\n            \t\"type\": \"Relationship\",\n            \t\"object\": \"urn:ngsi-ld:ObservableProperty:temperature\"\n        \t}\n        }\n    ]\n}"
 				},
 				"url": {
 					"raw": "{{indexer-host}}/{{api-prefix}}/notification",
@@ -293,10 +294,11 @@
 	],
 	"variable": [
 		{
-			"id": "a2dc384f-2326-4e75-8bf5-1be35460bf1b",
+			"id": "ffdf097f-4518-42bc-b50a-dbfa1b3faeea",
 			"key": "api-prefix",
 			"value": "api",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

@@ -9,7 +9,7 @@ export interface IndexedSensor {
         type: string;
         coordinates: number[];
     };
-    type: string;
+    observes: string;
 }
 
 const shardKeySpec = { countryISO: 1, geoPartitionKey: 1 };
@@ -29,7 +29,7 @@ export const IndexedSensor = new Model<IndexedSensor>('SensorMetadata', {
             required: true
         }
     },
-    type: { type: String, required: true }
+    observes: { type: String, required: true }
 }, {
     schemaOptions: {
         shardKey: shardKeySpec

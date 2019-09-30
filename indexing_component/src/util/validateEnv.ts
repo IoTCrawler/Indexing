@@ -7,7 +7,6 @@ type envType = {
     MONGO_DB: string;
     PORT: number;
 
-    LD_CONTEXT: string;
     INDEXER_HOST: string;
 };
 
@@ -17,7 +16,6 @@ export const env: envType = cleanEnv(process.env, {
     MONGO_HOST: str({ devDefault: 'localhost:27017' }),
     MONGO_DB: str({ default: 'iotcrawler' }),
     PORT: port({ devDefault: 3000 }),
-    LD_CONTEXT: str(),
     INDEXER_HOST: str()
 } as envType, {
     transformer: (env: envType): envType => ({ // eslint-disable-line @typescript-eslint/no-explicit-any

@@ -127,7 +127,7 @@ Updates the index according to content of the request. This API is intended to b
             "data": [
                 {
                     "id": "urn:ngsi-ld:Point:demoLocation1",
-                    "type": "Point",
+                    "type": "geo:Point",
                     "location": {
                         "type": "GeoProperty",
                         "value": {
@@ -141,14 +141,14 @@ Updates the index according to content of the request. This API is intended to b
                 },
                 {
                     "id": "urn:ngsi-ld:Sensor:demoSensor1",
-                    "type": "Sensor",
-                    "location": {
+                    "type": "sosa:Sensor",
+                    "geo:location": {
                         "type": "Relationship",
                         "object": "urn:ngsi-ld:Point:demoLocation1"
                     },
-                    "hasQuantityKind": {
+                    "sosa:observes": {
                         "type": "Relationship",
-                        "object": "urn:ngsi-ld:QuantityKind:temperature"
+                        "object": "urn:ngsi-ld:ObservableProperty:temperature"
                     }
                 }
             ]
@@ -209,7 +209,7 @@ GET /api/query
 [
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor1",
-        "type": "temperature",
+        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -220,7 +220,7 @@ GET /api/query
     },
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor2",
-        "type": "temperature",
+        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -259,7 +259,7 @@ GET /api/query
 [
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor1",
-        "type": "temperature",
+        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -271,7 +271,7 @@ GET /api/query
     },
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor2",
-        "type": "temperature",
+        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [

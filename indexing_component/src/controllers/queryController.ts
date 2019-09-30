@@ -4,6 +4,7 @@ import { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { Controller } from '../util/Controller';
 import { SearchQuery, SearchRequest, WithinSearchRequest, NearSearchRequest } from '../util/searchRequest';
 import { HttpException } from '../util/errorMiddleware';
+import { SensorType, sensorObservesPropName } from '../util/iotObjects/ontology';
 
 export class QueryController implements Controller {
     public readonly path = '/query';
@@ -46,7 +47,8 @@ export class QueryController implements Controller {
 
             res.status(OK).json(result.map(s => ({
                 id: s.sensorId,
-                type: s.type,
+                type: [SensorType],
+                [sensorObservesPropName]: s.observes,
                 location: s.location,
                 distance: s.distance
             })));

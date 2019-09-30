@@ -1,4 +1,4 @@
-export const PointType = 'Point';
-export const SensorType = 'Sensor';
-export const locationPropName = 'location';
-export const hasQuantityKindPropName = 'hasQuantityKind';
+export const PointType = 'geo:Point';
+export const SensorType = 'sosa:Sensor';
+export const locationPropName = 'geo:location';
+export const sensorObservesPropName = 'sosa:observes';

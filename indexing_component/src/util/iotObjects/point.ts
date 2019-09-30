@@ -1,4 +1,4 @@
-import { PointType, locationPropName } from "./ontology";
+import { PointType } from "./ontology";
 import { Entity, EntityBase } from "../clients/ngsiObjects/ngsiEntity";
 import { GeoPropertyType } from "../clients/ngsiObjects/ngsiProperty";
 
@@ -9,6 +9,6 @@ export class Point extends EntityBase {
     constructor(ngsiPoint: Entity) {
         super(ngsiPoint.id);
         this.type = PointType;
-        this.location = (ngsiPoint[locationPropName] as GeoPropertyType).value;
+        this.location = (ngsiPoint['location'] as GeoPropertyType).value;
     }
 }

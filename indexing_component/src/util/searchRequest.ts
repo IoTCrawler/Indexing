@@ -24,7 +24,7 @@ type WithinQueryInput = Omit<Record<keyof NearQuery, string>, 'coordinates' | 'q
 
 export interface SearchQuery {
     location: NearQueryInput | WithinQueryInput;
-    type?: string;
+    observes?: string;
 }
 
 export interface SearchRequest {
@@ -33,7 +33,7 @@ export interface SearchRequest {
 
 export class NearSearchRequest implements SearchRequest {
     private readonly location: NearQuery;
-    private readonly type?: string;
+    private readonly observes?: string;
 
     constructor(request: SearchQuery) {
         const reqLocation = request.location as NearQueryInput
@@ -43,7 +43,7 @@ export class NearSearchRequest implements SearchRequest {
             point: reqLocation.point.map(x => parseFloat(x)),
             maxDistance: reqLocation.maxDistance ? parseFloat(reqLocation.maxDistance) : undefined
         };
-        this.type = request.type;
+        this.observes = request.observes;
 
         if (this.location.sort === false && !this.location.maxDistance) {
             throw new HttpException(BAD_REQUEST, 'Unsorted request must specify a search radius using \'maxDistance\' property.')
@@ -67,7 +67,7 @@ export class NearSearchRequest implements SearchRequest {
             query: {
                 countryISO: await getCountry(this.location.point),
                 geoPartitionKey: '00',
-                type: this.type
+                observes: this.observes
             }
         };
         let pipiline = IndexedSensor.Model.aggregate([{ $geoNear: this.location.maxDistance ? { ...geoNear, maxDistance: this.location.maxDistance } : { ...geoNear } }]);
@@ -88,7 +88,7 @@ export class NearSearchRequest implements SearchRequest {
                     $centerSphere: [this.location.point, this.location.maxDistance! / 6371000]
                 }
             },
-            type: this.type
+            observes: this.observes
         });
 
         return await pipiline.exec();
@@ -97,7 +97,7 @@ export class NearSearchRequest implements SearchRequest {
 
 export class WithinSearchRequest implements SearchRequest {
     private readonly location: WithinQuery;
-    private readonly type?: string;
+    private readonly observes?: string;
 
     constructor(request: SearchQuery) {
         const reqLocation = request.location as WithinQueryInput
@@ -108,7 +108,7 @@ export class WithinSearchRequest implements SearchRequest {
             sort: reqLocation.sort ? JSON.parse(reqLocation.sort) as boolean : undefined,
             coordinates: coordinates.concat([coordinates[0]]) // Close the loop for MongoDB queries
         };
-        this.type = request.type;
+        this.observes = request.observes;
     }
 
     public async exec(): Promise<(IndexedSensor & { distance?: number })[]> {
@@ -140,7 +140,7 @@ export class WithinSearchRequest implements SearchRequest {
                             }
                         }
                     },
-                    type: this.type
+                    observes: this.observes
                 }
             }
         }]);
@@ -160,7 +160,7 @@ export class WithinSearchRequest implements SearchRequest {
                     }
                 }
             },
-            type: this.type
+            observes: this.observes
         });
 
         return await pipiline.exec();

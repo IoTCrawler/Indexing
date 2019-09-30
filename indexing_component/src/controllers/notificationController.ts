@@ -93,7 +93,7 @@ export class NotificationController implements Controller {
                 countryISO: point.countryISO,
                 geoPartitionKey: point.geoPartitionKey,
                 location: point.location,
-                type: s.quantityKind.slice('urn:ngsi-ld:QuantityKind:'.length)
+                observes: s.observes
             }) : undefined;
         });
 
@@ -107,7 +107,7 @@ export class NotificationController implements Controller {
         const unlocatedSensors = sensors.filter(s => cachedPoints.find(p => p.pointId === s.location) === undefined).map(s => new UnlocatedSensor.Model({
             id: s.id,
             location: s.location,
-            quantityKind: s.quantityKind
+            observes: s.observes
         }));
         const saveUnlocatedSensorsTask = UnlocatedSensor.Model.insertMany(unlocatedSensors);
 
