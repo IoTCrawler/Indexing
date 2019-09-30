@@ -35,6 +35,6 @@ export const IndexedSensor = new Model<IndexedSensor>('SensorMetadata', {
         shardKey: shardKeySpec
     },
     schemaConf: (schema): void => {
-        schema.index({location: '2dsphere', type: 1, sensorId: 1});
+        schema.index({location: '2dsphere', observes: 1, sensorId: 1});
     }
 });
