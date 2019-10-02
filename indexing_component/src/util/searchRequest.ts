@@ -67,7 +67,7 @@ export class NearSearchRequest implements SearchRequest {
             query: {
                 countryISO: await getCountry(this.location.point),
                 geoPartitionKey: '00',
-                observes: this.observes
+                observes: this.observes // TODO only include this parameter when it is != undefined
             }
         };
         let pipiline = IndexedSensor.Model.aggregate([{ $geoNear: this.location.maxDistance ? { ...geoNear, maxDistance: this.location.maxDistance } : { ...geoNear } }]);
@@ -85,10 +85,10 @@ export class NearSearchRequest implements SearchRequest {
             geoPartitionKey: '00',
             location: {
                 $geoWithin: {
-                    $centerSphere: [this.location.point, this.location.maxDistance! / 6371000]
+                    $centerSphere: [this.location.point, this.location.maxDistance as number / 6371000]
                 }
             },
-            observes: this.observes
+            observes: this.observes // TODO only include this parameter when it is != undefined
         });
 
         return await pipiline.exec();
@@ -140,7 +140,7 @@ export class WithinSearchRequest implements SearchRequest {
                             }
                         }
                     },
-                    observes: this.observes
+                    observes: this.observes // TODO only include this parameter when it is != undefined
                 }
             }
         }]);
@@ -160,7 +160,7 @@ export class WithinSearchRequest implements SearchRequest {
                     }
                 }
             },
-            observes: this.observes
+            observes: this.observes // TODO only include this parameter when it is != undefined
         });
 
         return await pipiline.exec();

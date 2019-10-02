@@ -35,16 +35,12 @@ Returns a list of registered brokers.
         {
             "_id": "5d7223f48484ea3f3cd605bb",
             "host": "http://broker.iotcrawler.net",
-            "subscriptionId": "5d7926fb6218616932949fa4",
-            "user":"admin", 
-            "password":"admin4djane"
+            "subscriptionId": "5d7926fb6218616932949fa4"
         },
         {
             "_id": "5d79270db817cb5f0e401443",
             "host": "http://broker2.iotcrawler.net",
-            "subscriptionId": "5d792711f38f3f53d4a7aa98",
-            "user":"admin", 
-	        "password":"admin4djane"
+            "subscriptionId": "5d792711f38f3f53d4a7aa98"
         }
     ]
 }
@@ -63,9 +59,7 @@ Returns a registered broker.
 {
     "_id": "5d79270db817cb5f0e401443",
     "host": "http://broker2.iotcrawler.net",
-    "subscriptionId": "5d792711f38f3f53d4a7aa98",
-    "user":"admin", 
-	"password":"admin4djane"
+    "subscriptionId": "5d792711f38f3f53d4a7aa98"
 }
 ```
 
@@ -81,9 +75,7 @@ Currently indexer only subscribes to location and type of the sensor.
 **Request**
 ```json
 {
-    "host": "http://broker2.iotcrawler.net",
-    "user":"admin", 
-	"password":"admin4djane"
+    "host": "http://broker2.iotcrawler.net"
 }
 ```
 
@@ -93,9 +85,7 @@ Currently indexer only subscribes to location and type of the sensor.
 {
     "_id": "5d79270db817cb5f0e401443",
     "host": "http://broker2.iotcrawler.net",
-    "subscriptionId": "5d792711f38f3f53d4a7aa98",
-    "user":"admin", 
-	"password":"admin4djane"
+    "subscriptionId": "5d792711f38f3f53d4a7aa98"
 }
 ```
 
@@ -123,35 +113,24 @@ Updates the index according to content of the request. This API is intended to b
     "subscriptionId": "5d7223f457102222dce6f40b",
     "data": [
         {
-            "subscriptionId": "5d7223f457102222dce6f40b",
-            "data": [
-                {
-                    "id": "urn:ngsi-ld:Point:demoLocation1",
-                    "type": "geo:Point",
-                    "location": {
-                        "type": "GeoProperty",
-                        "value": {
-                            "type": "Point",
-                            "coordinates": [
-                                -3.803561677,
-                                43.462966417
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "urn:ngsi-ld:Sensor:demoSensor1",
-                    "type": "sosa:Sensor",
-                    "geo:location": {
-                        "type": "Relationship",
-                        "object": "urn:ngsi-ld:Point:demoLocation1"
-                    },
-                    "sosa:observes": {
-                        "type": "Relationship",
-                        "object": "urn:ngsi-ld:ObservableProperty:temperature"
-                    }
-                }
-            ]
+            "id": "urn:ngsi-ld:Point:demoLocation1",
+            "type": "http://www.w3.org/2003/01/geo/wgs84_pos#Point",
+            "location": {
+                "type": "GeoProperty",
+                "value": "{\"type\": \"Point\",\"coordinates\": [-3.803561677,43.462966417]}"
+            }
+        },
+        {
+            "id": "urn:ngsi-ld:Sensor:demoSensor1",
+            "type": "http://www.w3.org/ns/sosa/Sensor",
+            "http://www.w3.org/2003/01/geo/wgs84_pos#location": {
+                "type": "Relationship",
+                "object": "urn:ngsi-ld:Point:demoLocation1"
+            },
+            "http://www.w3.org/ns/sosa/observes": {
+                "type": "Relationship",
+                "object": "urn:ngsi-ld:ObservableProperty:temperature"
+            }
         }
     ]
 }
@@ -209,7 +188,7 @@ GET /api/query
 [
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor1",
-        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
+        "http://www.w3.org/ns/sosa/observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -220,7 +199,7 @@ GET /api/query
     },
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor2",
-        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
+        "http://www.w3.org/ns/sosa/observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -259,7 +238,7 @@ GET /api/query
 [
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor1",
-        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
+        "http://www.w3.org/ns/sosa/observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -271,7 +250,7 @@ GET /api/query
     },
     {
         "id": "urn:ngsi-ld:Sensor:demoSensor2",
-        "sosa:observes": "urn:ngsi-ld:ObservableProperty:temperature",
+        "http://www.w3.org/ns/sosa/observes": "urn:ngsi-ld:ObservableProperty:temperature",
         "location": {
             "type": "Point",
             "coordinates": [

@@ -1,43 +1,38 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { CREATED, NO_CONTENT, OK } from 'http-status-codes';
+import { CREATED, NO_CONTENT, OK, UNAUTHORIZED } from 'http-status-codes';
 import { Subscription } from './ngsiObjects/ngsiSubscription';
 import { NgsiError } from './ngsiObjects/ngsiError';
 import { env } from '../validateEnv';
 import { SensorType, PointType, locationPropName, sensorObservesPropName } from "../iotObjects/ontology";
 import { Point } from '../iotObjects/point';
-import { BrokerRegistration } from '../../models/brokerRegistration';
 import * as mongoose from 'mongoose';
 import { Entity } from './ngsiObjects/ngsiEntity';
+import { AuthClient } from './authClient';
+import { HttpException } from '../errorMiddleware';
 
 export class NgsiClient {
     private readonly client: AxiosInstance;
     private readonly contentType: AxiosRequestConfig = { headers: { 'Content-Type': 'application/json' } };
-    private readonly credentials: {
-        username: string;
-        password: string;
-    };
 
-    constructor(brokerData: BrokerRegistration) {
+    constructor(brokerHost: string) {
         this.client = axios.create({
-            baseURL: `${brokerData.host}`,
+            baseURL: `${brokerHost}`,
             headers: {
                 'Accept': 'application/ld+json'
             }
         });
 
-        this.credentials = {
-            username: brokerData.user,
-            password: brokerData.password
-        };
-    }
+        this.client.interceptors.request.use(async function (config) {
+            try {
+                const token = await AuthClient.getToken(config.method, config.url as string);
+                config.headers['x-auth-token'] = token; // eslint-disable-line require-atomic-updates
 
-    public async auth(): Promise<void> {
-        const result = await this.client.post('/login', this.credentials, this.contentType);
-        if (result.status !== OK) {
-            throw new Error('Failed to authenticate with the broker');
-        }
-
-        this.client.defaults.headers['X-AUTH-TOKEN'] = result.data.token;
+                return config;
+            }
+            catch(e) {
+                throw new HttpException(UNAUTHORIZED, 'Failed to get token', e);
+            }
+        }, (error: unknown) => Promise.reject(error))
     }
 
     public async createSubscription(): Promise<{ id: string }> {
@@ -75,7 +70,6 @@ export class NgsiClient {
         };
 
         const result = await this.client.post<Subscription>(`/ngsi-ld/v1/subscriptions/`, reqData, this.contentType);
-
         if (result.status !== CREATED) {
             throw new NgsiError(result.status, "Failed to create subscription")
         }
@@ -96,7 +90,7 @@ export class NgsiClient {
             params: {
                 options: 'keyValues',
                 idPattern: `(${ids.join('|')})`,
-                // type: PointType // Does not work with Orion broker
+                type: PointType
             }
         });
 

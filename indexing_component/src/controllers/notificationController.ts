@@ -74,9 +74,7 @@ export class NotificationController implements Controller {
                     return next(new HttpException(NOT_FOUND, `Subsctiption not found: ${notification.subscriptionId}`))
                 }
                 
-                const client = new NgsiClient(broker);
-                await client.auth();
-
+                const client = new NgsiClient(broker.host);
                 const missingPoints = await client.getPoints(missingPointIds);
                 const missingPointInsertResult = await this.UpdateCachedPoints(missingPoints);
                 cachedPoints = cachedPoints.concat(missingPointInsertResult);

@@ -43,9 +43,7 @@ export class BrokerController implements Controller {
 
         // Create subscription in the Broker to be notififed about any changes to sensors / types / locations
         try {
-            const ngsiClient = new NgsiClient(brokerData);
-            await ngsiClient.auth();
-
+            const ngsiClient = new NgsiClient(brokerData.host);
             const subscription = await ngsiClient.createSubscription();
             brokerData.subscriptionId = subscription.id;
         } catch (e) {
@@ -99,8 +97,7 @@ export class BrokerController implements Controller {
                 return next(new HttpException(NOT_FOUND, `Broker registration with id='${id}' does not exist`));
             }
 
-            const ngsiClient = new NgsiClient(broker);
-            await ngsiClient.auth();
+            const ngsiClient = new NgsiClient(broker.host);
             await ngsiClient.deleteSubscription(broker.subscriptionId);
         } catch (e) {
             return next(new HttpException(INTERNAL_SERVER_ERROR, `Failed to delete subscription from the broker: ${e.message}`, e));

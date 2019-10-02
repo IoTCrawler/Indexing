@@ -17,10 +17,11 @@ export interface RelationshipType extends BasePropertyType {
 
 export interface GeoPropertyType extends BasePropertyType {
     type: 'GeoProperty';
-    value: {
-        type: 'Point';
-        coordinates: number[];
-    };
+    value: string;
+    // value: {
+    //     type: 'Point';
+    //     coordinates: number[];
+    // };
 }
 
 export type NgsiPropertyType<T> = PropertyType<T> | RelationshipType | GeoPropertyType;
