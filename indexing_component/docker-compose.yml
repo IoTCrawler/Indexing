@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 services:
   mongors1n1:
     container_name: indexer-mongors1n1
@@ -59,9 +59,19 @@ services:
       - "8083:8080"
     networks:
       - indexer-frontend
+      - broker
+      - security
 volumes:
   indexer-mongodb-data1:
   indexer-mongodb-config1:
 networks:
   indexer-frontend:
+    name: idx-frontend
   indexer-backend:
+    name: idx-backend
+  broker:
+    external:
+      name: scorpio
+  security:
+    external:
+      name: auth-comps

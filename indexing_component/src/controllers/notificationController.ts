@@ -30,10 +30,18 @@ export class NotificationController implements Controller {
 
     /// Current implementation does not support updating point locations.
     /// Create a new point and update the sensor to reference the new point instead.
-    public async handleNotification(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {       
-        const notification: Notification = req.body;
+    public async handleNotification(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {     
+        // TOTAL HACK, DISCUSTING, DIRTY AND WET
+        let asdf = {
+            subscriptionId: "5d7223f457102222dce6f40b",
+            data: [ req.body ]
+        }
+        const notification: Notification = <any> asdf
+        // const notification: Notification = req.body;
         let sensors: SensorT[] = [];
         const points: Point[] = [];
+
+        console.log(notification)
 
         // Parse data
         for (const entity of ([] as Entity[]).concat(notification.data)) {

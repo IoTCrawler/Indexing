@@ -2,7 +2,7 @@ admin = db.getSiblingDB("admin");
 admin.createUser(
   {
     user: "mongo-admin",
-    pwd: "<insert a random password here>",
+    pwd: "xrg1`cke1x8Xi8J",
     roles:
       [
         { role: "root", db: "admin" },
@@ -11,7 +11,7 @@ admin.createUser(
   }
 );
 
-admin.auth("mongo-admin", "<insert mongo-admin password from above>");
+admin.auth("mongo-admin", "xrg1`cke1x8Xi8J");
 
 sh.addShard("mongors1/indexer-mongors1n1");
 sh.enableSharding("iotcrawler");
@@ -20,7 +20,7 @@ iotcrawler = db.getSiblingDB("iotcrawler");
 iotcrawler.createUser(
   {
     user: "iotcrawler",
-    pwd: "<insert a random password here>",
+    pwd: "xrg1`cke1x8Xi8J",
     roles:
       [
         { role: "readWrite", db: "iotcrawler" },

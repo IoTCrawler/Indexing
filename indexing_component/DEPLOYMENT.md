@@ -14,28 +14,28 @@
    docker-compose start mongors1n1 mongocfg1
    ```
 5. Login into a config node and initiate a replica set
-  (execute command from `mongodb/scripts/mongors1conf.js` in the mongo shell)
+  (execute command from [mongors1conf1.js](./mongodb/scripts/mongors1conf1.js) in the mongo shell)
   ```bash
-  docker exec -it indexer-mongocfg1 mongo
+  docker-compose exec -T mongocfg1 mongo < mongodb/scripts/mongors1conf1.js
   ```
 6. Login into a node from each shard and initiate a replica set
-  (execute command from `mongodb/scripts/mongors1.js` in the mongo shell)
+  (execute command from [mongors1.js](./mongodb/scripts/mongors1.js) in the mongo shell)
   ```bash
-  docker exec -it indexer-mongors1n1 mongo
+  docker-compose exec -T mongors1n1 mongo < mongodb/scripts/mongors1.js
   ```
 7. Login into a primary node from each shard and create shard local admin user
-  (execute command from `mongodb/scripts/mongo-AddShardAdmin.js` in the mongo shell)
+  (execute command from [mongo-AddShardAdmin.js](./mongodb/scripts/mongo-AddShardAdmin.js) in the mongo shell)
   ```bash
-  docker exec -it indexer-mongors1n1 mongo
+  docker-compose exec -T mongors1n1 mongo < mongodb/scripts/mongo-AddShardAdmin.js
   ```
 8. Start Mongo DB router
    ```bash
    docker-compose start mongos1
    ```
 9. Login into a router node and configure sharding and authentication
-  (execute command from `mongodb/scripts/mongos.js` in the mongo shell)
+  (execute command from [mongos.js](./mongodb/scripts/mongos.js) in the mongo shell)
   ```bash
-  docker exec -it indexer-mongos1 mongo
+  docker-compose exec -T mongos1 mongo < mongodb/scripts/mongos.js
   ```
 10. Populate the Database with geo partitioning data (Country contours)
     ```bash
@@ -45,3 +45,32 @@
     ```bash
     docker-compose start indexer
     ```
+
+## all together
+
+```bash
+docker-compose build
+docker-compose up --no-start
+docker-compose start mongors1n1 mongocfg1
+
+sleep 3
+
+docker-compose exec -T mongocfg1 mongo < mongodb/scripts/mongors1conf1.js
+docker-compose exec -T mongors1n1 mongo < mongodb/scripts/mongors1.js
+
+sleep 3
+
+docker-compose exec -T mongors1n1 mongo < mongodb/scripts/mongo-AddShardAdmin.js
+
+docker-compose start mongos1
+
+sleep 3
+
+docker-compose exec -T mongos1 mongo < mongodb/scripts/mongos.js
+
+docker-compose run --rm indexer node "dist/util/populateFeatureGeometry.js"
+
+docker-compose start indexer
+```
+
+*NOTE:* trap for young players! make sure to delete previous volumes that could have been left on previous runs, don't rely solely on `docker-compose rm -fsv` to delete everything, as sometimes volumes can be left behind.

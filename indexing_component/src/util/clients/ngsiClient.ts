@@ -37,7 +37,9 @@ export class NgsiClient {
 
     public async createSubscription(): Promise<{ id: string }> {
         const reqData: Subscription = {
-            id: (new mongoose.Types.ObjectId()).toHexString(),
+            // TEMPORAL HACK TO ALLOW NON-BROKER NOTIFICATIONS
+            // id: (new mongoose.Types.ObjectId()).toHexString(),
+            id: "5d7223f457102222dce6f40b",
             type: 'Subscription',
             entities: [
                 {
