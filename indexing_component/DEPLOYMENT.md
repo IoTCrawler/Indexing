@@ -1,5 +1,7 @@
 # Deploying indexing component
 
+## Detailed process
+
 1. Build docker images
    ```bash
    docker-compose build
@@ -46,7 +48,23 @@
     docker-compose start indexer
     ```
 
-## all together
+## Broker subscription
+
+As a last step, the indexer must subscribe to the MDR, in order to receive notifications from the streams and points to be indexed. This has to be done through the provided indexer REST API, and for this example, it could be done with the following command:
+
+```bash
+curl -X POST \
+  http://localhost:8083/api/broker \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "host": "https://pepproxy:1027"
+}'
+```
+
+
+## All together
+
+You can run the [deploy.sh script](./deploy.sh) from this same folder, or copy-paste the following commands straight to the command line, again from this same folder.
 
 ```bash
 docker-compose build
@@ -71,6 +89,16 @@ docker-compose exec -T mongos1 mongo < mongodb/scripts/mongos.js
 docker-compose run --rm indexer node "dist/util/populateFeatureGeometry.js"
 
 docker-compose start indexer
+
+curl -X POST \
+  http://localhost:8083/api/broker \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "host": "https://pepproxy:1027"
+}'
+
 ```
 
-*NOTE:* trap for young players! make sure to delete previous volumes that could have been left on previous runs, don't rely solely on `docker-compose rm -fsv` to delete everything, as sometimes volumes can be left behind.
+## Final notes, tips and tricks
+
+**NOTE:** *trap for young players*! make sure to delete previous volumes that could have been left on previous runs, don't rely solely on `docker-compose rm -fsv` to delete everything, as sometimes volumes can be left behind.
