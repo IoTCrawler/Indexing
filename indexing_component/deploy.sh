@@ -22,6 +22,8 @@ docker-compose run --rm indexer node "dist/util/populateFeatureGeometry.js"
 
 docker-compose start indexer
 
+sleep 3
+
 curl -X POST \
   http://localhost:8083/api/broker \
   -H 'Content-Type: application/json' \
