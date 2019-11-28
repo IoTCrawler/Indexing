@@ -1,0 +1,70 @@
+# Indexer MUST be started after Mongo DB has initialized.
+# Starting everything together will result in indexer silently failing to connect to the database (all DB queries will timeout)
+
+version: '3'
+services:
+  mongors1n1:
+    container_name: indexer-mongors1n1
+    build:
+      context: mongodb
+      dockerfile: mongodb.Dockerfile
+    command: mongod --keyFile /security/keyfile --shardsvr --replSet mongors1 --dbpath /data/db --port 27017
+    restart: unless-stopped
+    expose:
+      - "27017"
+    environment:
+      TERM: xterm
+    volumes:
+      - indexer-mongodb-data1:/data/db
+    networks:
+      - indexer-backend
+  mongocfg1:
+    container_name: indexer-mongocfg1
+    build:
+      context: mongodb
+      dockerfile: mongodb.Dockerfile
+    command: mongod --keyFile /security/keyfile --configsvr --replSet mongors1conf --dbpath /data/db --port 27017
+    restart: unless-stopped
+    environment:
+      TERM: xterm
+    expose:
+      - "27017"
+    volumes:
+      - indexer-mongodb-config1:/data/db
+    networks:
+      - indexer-backend
+  mongos1:
+    container_name: indexer-mongos1
+    build:
+      context: mongodb
+      dockerfile: mongodb.Dockerfile
+    depends_on:
+      - mongocfg1
+    command: mongos --keyFile /security/keyfile --configdb mongors1conf/indexer-mongocfg1:27017 --port 27017 --bind_ip 0.0.0.0
+    restart: unless-stopped
+    expose:
+      - "27017"
+    networks:
+      - indexer-backend
+      - indexer-frontend
+  indexer: 
+    container_name: indexer
+    build:
+      context: .
+      dockerfile: indexer.Dockerfile
+    depends_on:
+      - mongos1
+      - mongors1n1
+    restart: unless-stopped
+    env_file:
+      - indexer.env
+    ports:
+      - "8083:8080"
+    networks:
+      - indexer-frontend
+volumes:
+  indexer-mongodb-data1:
+  indexer-mongodb-config1:
+networks:
+  indexer-frontend:
+  indexer-backend:
