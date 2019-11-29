@@ -14,7 +14,7 @@ export const QoiMapping = new Model<QoiMapping>('QoiMapping', {
     _id: { type: String },
     countryISO: { type: String, enum: CountryIsoList, required: true },
     geoPartitionKey: { type: String, required: true, default: '00' },
-    sensorId: { type: String, required: true, unique: true }
+    sensorId: { type: String, required: true, index: true }
 }, {
     schemaOptions: {
         shardKey: shardKeySpec

@@ -1,5 +1,4 @@
 import { NgsiPropertyType } from "./ngsiProperty";
-import { env } from "../../validateEnv";
 
 interface EntityBaseType {
     id: string;

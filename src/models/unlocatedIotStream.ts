@@ -10,7 +10,7 @@ const shardKeySpec = { _id: 'hashed' };
 
 export const UnlocatedIotStream = new Model<UnlocatedIotStream>('UnlocatedIotStream', {
     _id: { type: String },
-    generatedBy: { type: String, required: true, unique: true },
+    generatedBy: { type: String, required: true, index: true },
     hasQuality: { type: String }
 }, {
     schemaOptions: {

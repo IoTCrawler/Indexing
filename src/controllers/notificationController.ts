@@ -20,6 +20,7 @@ import { QoiMapping } from '../models/qoiMapping';
 import { PointMapping } from '../models/pointMapping';
 import { UnlocatedIotStream } from '../models/unlocatedIotStream';
 import { StreamMapping } from '../models/streamMapping';
+import { SensorMapping } from '../models/sensorMapping';
 
 export class NotificationController implements Controller {
     public readonly path = '/notification';
@@ -479,7 +480,8 @@ export class NotificationController implements Controller {
                                 _id: stream.id
                             }).exec(),
                             new UnmatchedSensor.Model({ ...oldStream.generatedBy }).save(),
-                            StreamMapping.Model.deleteOne({ _id: oldStream.id }).exec()
+                            StreamMapping.Model.deleteOne({ _id: oldStream.id }).exec(),
+                            SensorMapping.Model.deleteOne({ _id: oldStream.generatedBy }).exec()
                         ];
 
                         // If old stream has metaLocation, delete the mapping
@@ -528,7 +530,7 @@ export class NotificationController implements Controller {
                         };
                     }
 
-                    // Uodate stream mapping
+                    // Uodate stream and sensor mappings
                     const updateTasks = [
                         StreamMapping.Model.updateOne({ sensorId: streamMapping.sensorId }, {
                             $set: {
@@ -536,7 +538,13 @@ export class NotificationController implements Controller {
                                 geoPartitionKey: sensor.geoPartitionKey,
                                 sensorId: sensor.id
                             }
-                        }).exec()
+                        }).exec(),
+                        SensorMapping.Model.deleteOne({ _id: oldStream.generatedBy }).exec(),
+                        new SensorMapping.Model({
+                            _id: sensor.id,
+                            countryISO: sensor.countryISO,
+                            geoPartitionKey: sensor.geoPartitionKey
+                        }).save()
                     ];
 
                     // Add point mapping for new Sensor
@@ -656,6 +664,11 @@ export class NotificationController implements Controller {
                         countryISO: sensor.countryISO,
                         geoPartitionKey: sensor.geoPartitionKey,
                         sensorId: sensor.id
+                    }).save(),
+                    new SensorMapping.Model({
+                        _id: sensor.id,
+                        countryISO: sensor.countryISO,
+                        geoPartitionKey: sensor.geoPartitionKey,
                     }).save()
                 ];
 

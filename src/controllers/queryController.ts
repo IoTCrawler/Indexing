@@ -154,7 +154,6 @@ export class QueryController implements Controller {
 
                 let shardQuery: unknown;
 
-                // TODO: Id may be specified on a realated entity or in q parameter
                 if (idQuery) {
                     const mappingIdQuery = { _id: idQuery };
                     let typedIdQuery: unknown;
@@ -187,6 +186,9 @@ export class QueryController implements Controller {
                     }
 
                     combinedQuery.$and.push(typedIdQuery);
+                } else if (q) {
+                    // generate shard query from relationship id queries
+                    shardQuery = q.getShardQuery();
                 }
 
                 // Only Sensor entities contain location property
@@ -222,8 +224,12 @@ export class QueryController implements Controller {
                                 object: '$generatedBy._id'
                             },
                             hasQuality: {
-                                type: 'Relationship',
-                                object: '$hasQuality._id'
+                                $cond: {
+                                    if: '$hasQuality._id', then: {
+                                        type: 'Relationship',
+                                        object: '$hasQuality._id'
+                                    }, else: '$$REMOVE'
+                                }
                             }
                         };
                         break;
@@ -238,8 +244,16 @@ export class QueryController implements Controller {
                                 value: '$location'
                             },
                             'geo:location': {
+                                $cond: {
+                                    if: '$metaLocation._id', then: {
+                                        type: 'Relationship',
+                                        object: '$metaLocation._id'
+                                    }, else: '$$REMOVE'
+                                }
+                            },
+                            observes: {
                                 type: 'Relationship',
-                                object: '$metaLocation._id'
+                                object: '$observes'
                             }
                         };
                         break;
@@ -337,6 +351,7 @@ export class QueryController implements Controller {
             });
 
             for (const header in response.headers) {
+                if (header === 'transfer-encoding') { continue; }
                 res.setHeader(header, response.headers[header]);
             }
 
@@ -345,6 +360,7 @@ export class QueryController implements Controller {
             if (error.response) {
                 console.error(`Forwarding request to the broker returned an error: ${error.resonse.status}`);
                 for (const header in error.response.headers) {
+                    if (header === 'transfer-encoding') { continue; }
                     res.setHeader(header, error.response.headers[header]);
                 }
                 res.status(error.response.status).send(error.response.data);

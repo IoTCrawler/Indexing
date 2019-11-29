@@ -10,6 +10,7 @@ export const IndexingContext: jsonLD.WithContext = {
         IotStream: IotStreamType,
         Quality: QualityType,
 
+        _id: 'id',
         relativeLocation: relativeLocationPropName,
 
         metaLocation: {

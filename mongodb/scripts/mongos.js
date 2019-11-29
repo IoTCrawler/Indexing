@@ -32,6 +32,7 @@ iotcrawler.createUser(
 sh.shardCollection("iotcrawler.PointMapping", { _id: 'hashed' });
 sh.shardCollection("iotcrawler.QoiMapping", { _id: 'hashed' });
 sh.shardCollection("iotcrawler.StreamMapping", { _id: 'hashed' });
+sh.shardCollection("iotcrawler.SensorMapping", { _id: 'hashed' });
 sh.shardCollection("iotcrawler.UnlocatedIotStream", { _id: 'hashed' });
 sh.shardCollection("iotcrawler.UnmatchedPoint", { _id: 'hashed' });
 sh.shardCollection("iotcrawler.UnmatchedQuality", { _id: 'hashed' });

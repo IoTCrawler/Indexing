@@ -1,4 +1,7 @@
 import { IndexingContext, Context } from "./ngsiContext";
+import { SensorMapping } from "../../models/sensorMapping";
+import { PointMapping } from "../../models/pointMapping";
+import { QoiMapping } from "../../models/qoiMapping";
 
 class Range {
     public readonly min: number;
@@ -30,6 +33,8 @@ export class NgsiQuery {
     private static readonly AttributeSplitRegExp = new RegExp('\\.|(\\[)|((?<=\\[).*?(?=\\]))|\\]|(\\b[a-z]+?:\\/\\/.*?\\/.*?(?=[\\.\\[]|$))');
     private static readonly ExpandedAttrRegExp = new RegExp('^\\b[a-z]+?:\\/\\/.*?/.*$');
     private static readonly EscapeAttrRegExp = new RegExp('\\.', 'g');
+
+    private static readonly RelationshipProps: string[] = ['generatedBy', 'metaLocation', 'hasQuality'];
 
     public readonly query: unknown;
 
@@ -328,13 +333,18 @@ export class NgsiQuery {
                 }
 
                 // If last token is a URL, it is stored in index in normalizer NGSI-LD form, hence need to modify expression
-                const attrName = resolvedTokens.join('.');
-                if (NgsiQuery.ExpandedAttrRegExp.test(resolvedTokens[resolvedTokens.length - 1])) {
+                const lastToken = resolvedTokens[resolvedTokens.length - 1];
+                let attrName = resolvedTokens.join('.');
+                if (NgsiQuery.ExpandedAttrRegExp.test(lastToken)) {
                     normalizedAttr.push({
                         attr: attrName,
                         expr: expr
                     });
                 } else {
+                    // If last token is a known relationship, append '_id' to attribute name
+                    if (this.RelationshipProps.some(prop => prop === lastToken)) {
+                        attrName = `${attrName}._id`
+                    }
                     result[attrName] = expr;
                 }
             }
@@ -357,4 +367,68 @@ export class NgsiQuery {
             return result;
         }
     }
+
+    public async getShardQuery(): Promise<unknown | undefined> {
+        const countries = await NgsiQuery.getCountries(this.query);
+        if (countries.length === 0) { return undefined; }
+
+        return {
+            countryISO: { $in: countries.concat('00') },
+            geoPartitionKey: '00'
+        };
+    }
+
+    private static async getCountries(query: unknown): Promise<string[]> {
+        if ('$or' in (query as object)) { // Recursively find id queries in each sub query and concatenate them
+            return ([] as string[]).concat(...await Promise.all((query as { $or: unknown[] }).$or.map(async q => await NgsiQuery.getCountries(q))));
+        } else if ('$and' in (query as object)) { // Recursively find id queries in each sub query and return their intersection
+            const countryLists = await Promise.all((query as { $and: unknown[] }).$and.map(async q => await NgsiQuery.getCountries(q)));
+            let result = countryLists.pop()!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+            for (const countries of countryLists) {
+                result = result.filter(x => countries.find(c => c === x));
+            }
+            return result;
+        } else { // Find id queries
+            const countryLists: string[][] = [];
+
+            const attrs = Object.keys(query as object).filter(attr => attr.endsWith('._id'));
+
+            for (const attr of attrs) {
+                const tokens = attr.split('.');
+                const prop = tokens[tokens.length - 2];
+                const idQuery = { _id: (query as { [attr: string]: unknown })[attr] };
+                switch (prop) {
+                    case 'generatedBy': {
+                        const countries = (await SensorMapping.Model.find(idQuery, { _id: 0, countryISO: 1 }).exec()).map(c => c.countryISO);
+                        countryLists.push(countries);
+                        break;
+                    }
+                    case 'metaLocation': {
+                        const countries = (await PointMapping.Model.find(idQuery, { _id: 0, countryISO: 1 }).exec()).map(c => c.countryISO);
+                        countryLists.push(countries);
+                        break;
+                    }
+                    case 'hasQuality': {
+                        const countries = (await QoiMapping.Model.find(idQuery, { _id: 0, countryISO: 1 }).exec()).map(c => c.countryISO);
+                        countryLists.push(countries);
+                        break;
+                    }
+                    default:
+                        break; // should never happen
+                }
+            }
+
+            // Compute intersection between query parts
+            let result = countryLists.pop();
+            if (!result) { return []; }
+
+            for (const countries of countryLists) {
+                result = result.filter(x => countries.find(c => c === x));
+            }
+
+            return result;
+        }
+    }
+
+
 }
