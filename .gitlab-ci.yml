@@ -8,7 +8,7 @@ build:
   stage: build
   script:
     - docker build --tag $CI_REGISTRY_IMAGE/indexer/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE/indexer/$CI_COMMIT_REF_NAME:latest --file indexer.Dockerfile .
-    - docker build --tag $CI_REGISTRY_IMAGE/mongo/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE/mongo/$CI_COMMIT_REF_NAME:latest --file mongodb.Dockerfile  ./mongodb
+    - docker build --tag $CI_REGISTRY_IMAGE/mongo/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE/mongo/$CI_COMMIT_REF_NAME:latest --file ./mongodb/mongodb.Dockerfile  ./mongodb
     - docker push $CI_REGISTRY_IMAGE/indexer/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE/indexer/$CI_COMMIT_REF_NAME:latest
     - docker push $CI_REGISTRY_IMAGE/mongo/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA
@@ -20,7 +20,7 @@ build-tags:
   stage: build
   script:
     - docker build --tag $CI_REGISTRY_IMAGE/indexer:$CI_COMMIT_TAG --file indexer.Dockerfile .
-    - docker build --tag $CI_REGISTRY_IMAGE/mongo:$CI_COMMIT_TAG --file mongodb.Dockerfile ./mongodb
+    - docker build --tag $CI_REGISTRY_IMAGE/mongo:$CI_COMMIT_TAG --file ./mongodb/mongodb.Dockerfile ./mongodb
     - docker push $CI_REGISTRY_IMAGE/indexer:$CI_COMMIT_TAG
     - docker push $CI_REGISTRY_IMAGE/mongo:$CI_COMMIT_TAG
   only:
