@@ -1,0 +1,66 @@
+apiVersion: {{ default "extensions/v1beta1" .Values.deploymentApiVersion }}
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: {{ template "appname" . }}
+    track: "{{ .Values.application.track }}"
+    tier: "{{ .Values.application.tier }}"
+    release: {{ .Release.Name }}
+    service: indexer-mongors1
+  name: mongors1-deployment
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels:
+      app: {{ template "appname" . }}
+      track: "{{ .Values.application.track }}"
+      tier: "{{ .Values.application.tier }}"
+      release: {{ .Release.Name }}
+      service: mongors1
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        app: {{ template "appname" . }}
+        track: "{{ .Values.application.track }}"
+        tier: "{{ .Values.application.tier }}"
+        release: {{ .Release.Name }}
+        service: mongors1
+    spec:
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      initContainers:
+      - name: keygenerator
+        image: alpine:latest
+        workingDir: /usr/src/app
+        env:
+        ports:
+        volumeMounts:
+        - name: shared-data
+          mountPath: /usr/src/app
+        command: ["/bin/sh","-c"]
+        args:
+        - apk add --no-cache openssl;
+          openssl rand -base64 756 > keyfile;
+      containers:
+      - name: indexer-mongors1
+        image: mongo
+        env:
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: shared-data
+          mountPath: /security
+        command: ["/bin/bash","-c"]
+        args:
+        - cp /usr/src/app/keyfile .;
+          chmod 400 /security/keyfile;
+          echo 'Europe/London' > /etc/localtime;
+          chmod 444 /etc/localtime;
+          mongos --keyFile /security/keyfile --configdb mongors1conf/indexer-mongocfg1:27017 --port 27017 --bind_ip 0.0.0.0;
+      restartPolicy: Always
+      enableServiceLinks: false
