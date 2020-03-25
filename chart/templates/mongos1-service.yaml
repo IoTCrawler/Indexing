@@ -6,11 +6,11 @@ metadata:
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
     release: {{ .Release.Name }}
-    service: mongors1
-  name: mongors1
+    service: indexer-mongos1
+  name: indexer-mongos1
 spec:
   ports:
-  - name: mongors1
+  - name: indexer-mongos1
     port: 27017
     targetPort: 27017
   selector:
@@ -18,6 +18,6 @@ spec:
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
     release: {{ .Release.Name }}
-    service: mongors1
+    service: indexer-mongos1
 status:
   loadBalancer: {}

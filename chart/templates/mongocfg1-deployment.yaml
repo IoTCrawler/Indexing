@@ -18,7 +18,7 @@ spec:
       track: "{{ .Values.application.track }}"
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
-      service: mongocfg1
+      service: indexer-mongocfg1
   template:
     metadata:
       annotations:
@@ -28,7 +28,7 @@ spec:
         track: "{{ .Values.application.track }}"
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
-        service: mongocfg1
+        service: indexer-mongocfg1
     spec:
       volumes:
       - name: shared-data

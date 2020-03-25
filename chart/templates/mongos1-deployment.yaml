@@ -7,7 +7,7 @@ metadata:
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
     release: {{ .Release.Name }}
-    service: indexer-mongors1
+    service: indexer-mongos1
   name: mongors1-deployment
 spec:
   replicas: 1
@@ -18,7 +18,7 @@ spec:
       track: "{{ .Values.application.track }}"
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
-      service: mongors1
+      service: indexer-mongos1
   template:
     metadata:
       annotations:
@@ -28,7 +28,7 @@ spec:
         track: "{{ .Values.application.track }}"
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
-        service: mongors1
+        service: indexer-mongos1
     spec:
       volumes:
       - name: shared-data
@@ -47,7 +47,7 @@ spec:
         - apk add --no-cache openssl;
           openssl rand -base64 756 > keyfile;
       containers:
-      - name: indexer-mongors1
+      - name: indexer-mongos1
         image: mongo
         env:
         ports:
