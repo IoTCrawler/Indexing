@@ -1,5 +1,5 @@
 apiVersion: {{ default "extensions/v1beta1" .Values.deploymentApiVersion }}
-kind: Deployment
+kind: StatefulSet
 metadata:
   annotations:
   labels:
@@ -8,10 +8,9 @@ metadata:
     tier: "{{ .Values.application.tier }}"
     release: {{ .Release.Name }}
     service: indexer-mongos1
-  name: mongors1-deployment
+  name: indexer-mongos1
 spec:
   replicas: 1
-  strategy: {}
   selector:
     matchLabels:
       app: {{ template "appname" . }}
@@ -19,6 +18,7 @@ spec:
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
       service: indexer-mongos1
+  serviceName: indexer-mongos1
   template:
     metadata:
       annotations:
@@ -29,23 +29,13 @@ spec:
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
         service: indexer-mongos1
+      name: indexer-mongos1
     spec:
       volumes:
-      - name: shared-data
-        emptyDir: {}
-      initContainers:
-      - name: keygenerator
-        image: alpine:latest
-        workingDir: /usr/src/app
-        env:
-        ports:
-        volumeMounts:
-        - name: shared-data
-          mountPath: /usr/src/app
-        command: ["/bin/sh","-c"]
-        args:
-        - apk add --no-cache openssl;
-          openssl rand -base64 756 > keyfile;
+      - name: init
+        configMap:
+          defaultMode: 0755
+          name: mongodb-configmap-init
       containers:
       - name: indexer-mongos1
         image: mongo
@@ -53,14 +43,16 @@ spec:
         ports:
         - containerPort: 27017
         volumeMounts:
-        - name: shared-data
-          mountPath: /security
+        - name: init
+          mountPath: /init
         command: ["/bin/bash","-c"]
         args:
-        - cp /usr/src/app/keyfile .;
-          chmod 400 /security/keyfile;
-          echo 'Europe/London' > /etc/localtime;
-          chmod 444 /etc/localtime;
-          mongos --keyFile /security/keyfile --configdb mongors1conf/indexer-mongocfg1:27017 --port 27017 --bind_ip 0.0.0.0;
+        - source /init/on-start.sh "s1";
+        env:
+        - name: keyfile
+          valueFrom:
+            secretKeyRef:
+              name: {{.Release.Name}}
+              key: keyfile
       restartPolicy: Always
       enableServiceLinks: false
