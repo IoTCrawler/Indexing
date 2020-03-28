@@ -4,7 +4,7 @@ retry_until() {
   COUNTER=0
   grep -q 'waiting for connections on port' /var/log/mongodb.log
   while [[ $? -ne 0 ]] ; do
-      sleep 20
+      sleep 2
       let COUNTER+=2
       echo "Waiting for mongo to initialize... ($COUNTER seconds so far)"
       grep -q 'waiting for connections on port' /var/log/mongodb.log
