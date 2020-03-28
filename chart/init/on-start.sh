@@ -4,7 +4,7 @@ retry_until() {
   COUNTER=0
   grep -q 'waiting for connections on port' /var/log/mongodb.log
   while [[ $? -ne 0 ]] ; do
-      sleep 2
+      sleep 20
       let COUNTER+=2
       echo "Waiting for mongo to initialize... ($COUNTER seconds so far)"
       grep -q 'waiting for connections on port' /var/log/mongodb.log
@@ -39,7 +39,7 @@ elif [ $TYPE = "s1" ]
 then
   echo "starting mongodb"
   mongos --keyFile /home/keyfile --configdb mongors1conf/indexer-mongocfg1:27017 --port 27017 --bind_ip 0.0.0.0 2>&1 | tee -a /var/log/mongodb.log 1>&2 &
-  sleep 15
+  sleep 60
   retry_until
   mongo --eval 'admin=db.getSiblingDB("admin")'
   mongo --eval 'admin.createUser({user:"mongo-admin",pwd:"qweasd",roles:[{role:"root",db:"admin"},],mechanisms:["SCRAM-SHA-256"]})'
