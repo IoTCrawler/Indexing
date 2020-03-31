@@ -1,0 +1,62 @@
+apiVersion: {{ default "extensions/v1beta1" .Values.deploymentApiVersion }}
+kind: StatefulSet
+metadata:
+  annotations:
+  labels:
+    app: {{ template "appname" . }}
+    track: "{{ .Values.application.track }}"
+    tier: "{{ .Values.application.tier }}"
+    release: {{ .Release.Name }}
+    service: indexer-mongocfg1
+  name: indexer-mongocfg1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "appname" . }}
+      track: "{{ .Values.application.track }}"
+      tier: "{{ .Values.application.tier }}"
+      release: {{ .Release.Name }}
+      service: indexer-mongocfg1
+  serviceName: indexer-mongocfg1
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        app: {{ template "appname" . }}
+        track: "{{ .Values.application.track }}"
+        tier: "{{ .Values.application.tier }}"
+        release: {{ .Release.Name }}
+        service: indexer-mongocfg1
+      name: indexer-mongocfg1
+    spec:
+      volumes:
+      - name: datadir
+        emptyDir: {}
+      - name: init
+        configMap:
+          defaultMode: 0755
+          name: mongodb-configmap-init
+      containers:
+      - name: indexer-mongocfg1
+        image: mongo
+        env:
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: datadir
+          mountPath: /data/db 
+        - name: init
+          mountPath: /init
+        command: ["/bin/bash","-c"]
+        args:
+        - source /init/on-start.sh "cfg1";
+        env:
+        - name: keyfile
+          valueFrom:
+            secretKeyRef:
+              name: {{.Release.Name}}
+              key: keyfile
+      restartPolicy: Always
+      enableServiceLinks: false
