@@ -260,7 +260,7 @@ If query is too complex or queried entites are not in the index, original requst
         "Sensor": "http://www.w3.org/ns/sosa/Sensor",
         "IotStream": "http://purl.org/iot/ontology/iot-stream#IotStream",
         "Quality": "https://w3id.org/iot/qoi#Quality",
-        "relativeLocation": "http://purl.oclc.org/NET/UNIS/fiware/iot-lite#term_relativeLocation",
+        "relativeLocation": "http://purl.oclc.org/NET/UNIS/fiware/iot-lite#relativeLocation",
         "metaLocation": {
             "@type": "@id",
             "@id": "http://www.w3.org/2003/01/geo/wgs84_pos#location"
