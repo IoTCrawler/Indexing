@@ -3,33 +3,33 @@ kind: StatefulSet
 metadata:
   annotations:
   labels:
-    app: {{ template "appname" . }}
+    app: "{{ .Values.shardsvr.name }}"
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
     release: {{ .Release.Name }}
-    service: indexer-mongors1n1
-  name: indexer-mongors1n1
+    service: "{{ .Values.shardsvr.service.name }}"
+  name: "{{ .Values.shardsvr.service.name }}"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "appname" . }}
+      app: "{{ .Values.shardsvr.name }}"
       track: "{{ .Values.application.track }}"
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
-      service: indexer-mongors1n1
-  serviceName: indexer-mongors1n1
+      service: "{{ .Values.shardsvr.service.name }}"
+  serviceName: "{{ .Values.shardsvr.service.name }}"
   template:
     metadata:
       annotations:
       creationTimestamp: null
       labels:
-        app: {{ template "appname" . }}
+        app: "{{ .Values.shardsvr.name }}"
         track: "{{ .Values.application.track }}"
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
-        service: indexer-mongors1n1
-      name: indexer-mongors1n1
+        service: "{{ .Values.shardsvr.service.name }}"
+      name: "{{ .Values.shardsvr.service.name }}"
     spec:
       volumes:
       - name: datadir
@@ -39,8 +39,8 @@ spec:
           defaultMode: 0755
           name: mongodb-configmap-init
       containers:
-      - name: indexer-mongors1n1
-        image: mongo
+      - name: "{{ .Values.shardsvr.service.name }}"
+        image: {{ .Values.common.image }}
         env:
         ports:
         - containerPort: 27017

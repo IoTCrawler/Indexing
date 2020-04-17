@@ -120,3 +120,21 @@ workers: {}
   #   - procfile
   #   - start
   #   - stop_worker
+configsvr:
+  name: mongodb-configsvr
+  replicas: 1
+  service:
+    name: indexer-mongocfg1
+shardsvr:
+  name: mongodb-shardsvr
+  replicas: 1
+  service:
+    name: indexer-mongors1n1
+mongos:
+  name: mongodb-configsvr
+  replicas: 1
+  service:
+    name: indexer-mongos1
+common:
+  image: mongo:latest
+
