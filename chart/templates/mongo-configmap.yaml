@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}  
+  name: mongo-configmap
+data:
+  on-start.sh: |
+{{ .Files.Get "scripts/on-start.sh" | indent 4 }}
+  mongors1conf1.js: |
+{{ .Files.Get "scripts/mongors1conf1.js" | indent 4 }}
+  mongors1.js: |
+{{ .Files.Get "scripts/mongors1.js" | indent 4 }}
+  mongos.js: |
+{{ .Files.Get "scripts/mongos.js" | indent 4 }}

@@ -32,10 +32,15 @@ spec:
       name: "{{ .Values.mongos.service.name }}"
     spec:
       volumes:
-      - name: init
+      - name: scripts
         configMap:
           defaultMode: 0755
-          name: mongodb-configmap-init
+          name: mongo-configmap
+          items:
+          - key: on-start.sh
+            path: on-start.sh
+          - key: mongos.js
+            path: mongos.js
       containers:
       - name: "{{ .Values.mongos.service.name }}"
         image: {{ .Values.common.image }}
@@ -43,11 +48,11 @@ spec:
         ports:
         - containerPort: 27017
         volumeMounts:
-        - name: init
-          mountPath: /init
+        - name: scripts
+          mountPath: /home/scripts
         command: ["/bin/bash","-c"]
         args:
-        - source /init/on-start.sh "s1";
+        - source /home/scripts/on-start.sh "mongos";
         env:
         - name: KEYFILE
           valueFrom:

@@ -34,10 +34,15 @@ spec:
       volumes:
       - name: datadir
         emptyDir: {}
-      - name: init
+      - name: scripts
         configMap:
           defaultMode: 0755
-          name: mongodb-configmap-init
+          name: mongo-configmap
+          items:
+          - key: on-start.sh
+            path: on-start.sh
+          - key: mongors1conf1.js
+            path: mongors1conf1.js
       containers:
       - name: "{{ .Values.configsvr.service.name }}"
         image: {{ .Values.common.image }}
@@ -47,11 +52,11 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /data/db 
-        - name: init
-          mountPath: /init
+        - name: scripts
+          mountPath: /home/scripts
         command: ["/bin/bash","-c"]
         args:
-        - source /init/on-start.sh "cfg1";
+        - source /home/scripts/on-start.sh "config";
         env:
         - name: KEYFILE
           valueFrom:

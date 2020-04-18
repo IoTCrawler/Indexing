@@ -1,22 +1,13 @@
-{{- if and (.Values.service.enabled) (eq .Values.application.track "stable") -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}
-  annotations:
-{{- if .Values.service.annotations }}
-{{ toYaml .Values.service.annotations | indent 4 }}
-{{- end }}
-{{- if .Values.prometheus.metrics }}
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "{{ .Values.service.internalPort }}"
-{{- end }}
   labels:
     app: {{ template "appname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    track: "{{ .Values.application.track }}"
+    tier: "{{ .Values.application.tier }}"
     release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
     service: indexing
+  name: indexing
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -26,5 +17,9 @@ spec:
     name: {{ .Values.service.name }}
   selector:
     app: {{ template "appname" . }}
+    track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
-{{- end -}}
+    release: {{ .Release.Name }}
+    service: indexing
+status:
+  loadBalancer: {}
