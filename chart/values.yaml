@@ -122,12 +122,12 @@ workers: {}
   #   - stop_worker
 configsvr:
   name: mongodb-configsvr
-  replicas: 1
+  replicas: 3
   service:
     name: indexer-mongocfg1
 shardsvr:
   name: mongodb-shardsvr
-  replicas: 1
+  replicas: 3
   service:
     name: indexer-mongors1n1
 mongos:

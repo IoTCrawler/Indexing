@@ -10,7 +10,7 @@ metadata:
     service: "{{ .Values.configsvr.service.name }}"
   name: "{{ .Values.configsvr.service.name }}"
 spec:
-  replicas: 1
+  replicas: {{ .Values.configsvr.replicas }}
   selector:
     matchLabels:
       app: "{{ .Values.configsvr.name }}"
@@ -53,7 +53,7 @@ spec:
         args:
         - source /init/on-start.sh "cfg1";
         env:
-        - name: keyfile
+        - name: KEYFILE
           valueFrom:
             secretKeyRef:
               name: {{.Release.Name}}
