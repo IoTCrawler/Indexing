@@ -13,6 +13,7 @@ spec:
   - name: "{{ .Values.shardsvr.service.name }}"
     port: 27017
     targetPort: 27017
+  clusterIP: None
   selector:
     app: "{{ .Values.shardsvr.name }}"
     track: "{{ .Values.application.track }}"
