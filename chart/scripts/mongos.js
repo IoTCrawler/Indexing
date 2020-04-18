@@ -13,9 +13,9 @@ admin.createUser(
 
 admin.auth("mongo-admin", "qweasd");
 
-sh.addShard("mongors1/indexer-mongors1n1-0.indexer-mongors1n1.default.svc.cluster.local:27017");
-sh.addShard("mongors1/indexer-mongors1n1-1.indexer-mongors1n1.default.svc.cluster.local:27017");
-sh.addShard("mongors1/indexer-mongors1n1-2.indexer-mongors1n1.default.svc.cluster.local:27017");
+sh.addShard("mongors1/indexer-mongors1n1-0.indexer-mongors1n1.indexing-9-production.svc.cluster.local:27017");
+sh.addShard("mongors1/indexer-mongors1n1-1.indexer-mongors1n1.indexing-9-production.svc.cluster.local:27017");
+sh.addShard("mongors1/indexer-mongors1n1-2.indexer-mongors1n1.indexing-9-production.svc.cluster.local:27017");
 sh.enableSharding("iotcrawler");
 
 iotcrawler = db.getSiblingDB("iotcrawler");
