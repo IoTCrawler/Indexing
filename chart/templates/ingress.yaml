@@ -15,17 +15,17 @@ metadata:
 spec:
   tls:
   - hosts:
-    - le-9.35.241.228.250.nip.io
-    - indexing-indexing.35.241.228.250.nip.io
+    - le-9.35.241.228.250.xip.io
+    - indexing-indexing.35.241.228.250.xip.io
   rules:
-  - host: indexing-indexing.35.241.228.250.nip.io
+  - host: indexing-indexing.35.241.228.250.xip.io
     http:
       paths:
       - path: /
         backend:
           serviceName: indexing
           servicePort: 8080
-  - host: le-9.35.241.228.250.nip.io
+  - host: le-9.35.241.228.250.xip.io
     http:
       paths:
       - path: /
