@@ -9,7 +9,7 @@ import { HttpException } from '../errorMiddleware';
 
 export class NgsiClient {
     private readonly client: AxiosInstance;
-    private readonly contentType: AxiosRequestConfig = { headers: { 'Content-Type': 'application/json+ld' } };
+    private readonly contentType: AxiosRequestConfig = { headers: { 'Content-Type': 'application/ld+json' } };
 
     constructor(brokerHost: string) {
         this.client = axios.create({
@@ -47,7 +47,7 @@ export class NgsiClient {
             notification: {
                 endpoint: {
                     uri: `${env.INDEXER_HOST}/api/notification/${handler}`,
-                    accept: 'application/json'
+                    accept: 'application/ld+json'
                 },
                 format: 'normalized',
                 attributes: attributes
