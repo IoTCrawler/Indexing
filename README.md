@@ -4,10 +4,28 @@ Indexing is a Node.js web service written in TypeScript. It uses sharded MongoDB
 It subscribes to the broker for Stream, Sensor, QoI and Location changes and uses these notifications to keep index up-to-date.
 
 It exposes full NGSI-LD querying interface. `Link` header or *Temporal Entities* are **NOT** supported.
-If query is too complex (contains RegExp), involes entities (or related entities) or properties which are not part of the index,
-it will be forwared to NGSI-LD broker.
+If query is too complex (contains RegExp), involes entities (or related entities) or properties which are not part of the index, it will be forwared to NGSI-LD broker.
 
 ## API
+
+### Sanity Check  
+
+#### Service status
+
+```
+GET /api/health  
+```
+**Description**
+
+Returns a health status of the service.
+
+**Response**
+```json
+{
+   "status": "UP"
+}
+```
+
 ### Common Error response
 ```json
 {
