@@ -37,10 +37,14 @@ export class App {
         this.app.use('/api', new BrokerController().router);
         this.app.use('/api', new NotificationController().router);
         this.app.use('/ngsi-ld/v1', new QueryController().router);
-
+        // api health
+        this.app.use('/api/health', (_, res) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ status: `UP` }, null, 3));
+        });
         // Setup default handler
         this.app.use('*', (_, res) => {
-            res.sendStatus(NOT_FOUND);
+            res.send(NOT_FOUND);
         });
     }
 
@@ -58,7 +62,7 @@ export class App {
 
         mongoose.connect(
             `mongodb://${user}:${password}@${host}/${db}`,
-            { 
+            {
                 useNewUrlParser: true,
                 useCreateIndex: true,
                 useFindAndModify: false
