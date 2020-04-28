@@ -75,7 +75,7 @@ spec:
         - name: INDEXER_IDM_PASS
           value: 
         - name: BROKER_HOST
-          value: 
+          value: http://metadata-repository-scorpiobroker.35.241.228.250.nip.io
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}
