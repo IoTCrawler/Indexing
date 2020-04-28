@@ -44,7 +44,7 @@ export class App {
         });
         // Setup default handler
         this.app.use('*', (_, res) => {
-            res.send(NOT_FOUND);
+            res.send(NOT_FOUND); 
         });
     }
 
