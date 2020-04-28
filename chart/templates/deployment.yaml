@@ -65,7 +65,7 @@ spec:
         - name: PORT
           value: "8080"
         - name: INDEXER_HOST
-          value: 
+          value: https://indexing-indexing.35.241.228.250.xip.io
         - name: IDM_HOST
           value: https://localhost:443
         - name: CPM_HOST
@@ -75,7 +75,7 @@ spec:
         - name: INDEXER_IDM_PASS
           value: 
         - name: BROKER_HOST
-          value: 
+          value: http://scorpio.scorpiobroker-46-production:9090
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}
