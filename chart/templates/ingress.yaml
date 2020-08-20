@@ -15,22 +15,22 @@ metadata:
 spec:
   tls:
   - hosts:
-    - le-9.35.241.228.250.xip.io
-    - indexing-indexing.35.241.228.250.xip.io
+    {{ if eq .Values.gitlab.env "staging" }}
+    - staging.indexing.iotcrawler.eu
+    {{ else }}
+    - indexing.iotcrawler.eu
+    {{ end }}
+    secretName: indexing-{{ .Values.gitlab.env }}-tls
   rules:
-  - host: indexing-indexing.35.241.228.250.xip.io
+  {{ if eq .Values.gitlab.env "staging" }}
+  - host: staging.indexing.iotcrawler.eu
+    {{ else }}
+  - host: indexing.iotcrawler.eu
+  {{ end }}
     http:
       paths:
       - path: /
         backend:
           serviceName: indexing
           servicePort: 8080
-  - host: le-9.35.241.228.250.xip.io
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: indexing
-          servicePort: 8080
-
 {{- end }}
