@@ -75,7 +75,8 @@ class AuthClientT {
         const req: CapabilityTokenRequest = {
             token: await this.idmClient.getToken(),
             ac: action,
-            de: 'localhost',
+            // de: 'localhost',
+            de: env.BROKER_HOST,
             re: resource
         };
 
