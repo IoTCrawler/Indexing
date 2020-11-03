@@ -24,7 +24,7 @@ export class App {
     }
 
     private initializeMiddleware(): void {
-        this.app.use(express.json());
+        this.app.use(express.json({type:['application/json', 'application/ld+json']}));
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use((req, _, next) => {
             console.info(`${req.method} ${req.path}`);
