@@ -3,6 +3,8 @@ import { env } from '../validateEnv';
 import { CREATED } from 'http-status-codes';
 import { HttpException } from '../errorMiddleware';
 
+import https = require('https');
+
 class IdmClient {
     private readonly client: AxiosInstance;
     private readonly credentials: {
@@ -20,7 +22,10 @@ class IdmClient {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }
+            },
+            httpsAgent: new https.Agent({  
+                rejectUnauthorized: false
+              })
         });
 
         this.credentials = {
