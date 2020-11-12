@@ -79,7 +79,7 @@ class AuthClientT {
     public async getToken(action: HttpMethod, resource: string): Promise<string> {
         const req: CapabilityTokenRequest = {
             token: await this.idmClient.getToken(),
-            ac: action,
+            ac: (<String>action).toUpperCase() as HttpMethod,
             // de: 'localhost',
             de: env.BROKER_HOST,
             re: resource
