@@ -6,6 +6,7 @@ import { env } from '../validateEnv';
 import * as mongoose from 'mongoose';
 import { AuthClient } from './authClient';
 import { HttpException } from '../errorMiddleware';
+import https = require('https');
 
 export class NgsiClient {
     private readonly client: AxiosInstance;
@@ -16,7 +17,10 @@ export class NgsiClient {
             baseURL: `${brokerHost}`,
             headers: {
                 'Accept': 'application/ld+json'
-            }
+            },
+            httpsAgent: new https.Agent({  
+                rejectUnauthorized: false
+              })
         });
 
         if (env.ENABLE_AUTH) {
