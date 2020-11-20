@@ -1,5 +1,4 @@
 # Indexing component of IoT Crawler
-{:.no_toc}
 
 Indexing is a Node.js web service written in TypeScript. It uses sharded MongoDB to store its data.
 It subscribes to the broker for Stream, Sensor, QoI and Location changes and uses these notifications to keep index up-to-date.
