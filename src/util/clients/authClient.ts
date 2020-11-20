@@ -41,7 +41,7 @@ class IdmClient {
 
         const result = await this.client.post('/v1/auth/tokens', this.credentials);
         if (result.status !== CREATED) {
-            throw new HttpException(result.status, `Failed to get authentication token: ${result.data}`);
+            throw new HttpException(result.status, `Failed to get authentication token from IDM: ${result.data}`);
         }
 
         this.token = {
@@ -71,7 +71,10 @@ class AuthClientT {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }
+            },
+            httpsAgent: new https.Agent({  
+                rejectUnauthorized: false
+              })
         });
         this.idmClient = new IdmClient();
     }
