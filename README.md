@@ -7,11 +7,11 @@ It subscribes to the broker for Stream, Sensor, QoI and Location changes and use
 It exposes full NGSI-LD querying interface. `Link` header or *Temporal Entities* are **NOT** supported.
 If query is too complex (contains RegExp), involes entities (or related entities) or properties which are not part of the index, it will be forwared to NGSI-LD broker.
 
+[[_TOC_]]
+
 ## API
-{:toc}
 
 ### Sanity Check  
-{:toc}
 
 #### Service status
 
