@@ -12,14 +12,16 @@ If query is too complex (contains RegExp), involes entities (or related entities
 
 #### Service status
 
-```
+```http  
 GET /api/health  
-```
-**Description**
+```  
+
+#### **Description**  
 
 Returns a health status of the service.
 
-**Response**
+#### **Response**  
+
 ```json
 {
    "status": "UP"
@@ -27,6 +29,7 @@ Returns a health status of the service.
 ```
 
 ### Common Error response
+
 ```json
 {
     "status": 404,
@@ -35,15 +38,19 @@ Returns a health status of the service.
 ```
 
 ### Broker Management
+
 #### List registered brokers
-```jsonnet
+
+```http
 GET /api/broker
-```
-**Description**
+```  
+
+**Description**  
 
 Returns a list of registered brokers.
 
 **Response**
+
 ```json
 {
     "count": 2,
@@ -62,15 +69,18 @@ Returns a list of registered brokers.
 }
 ```
 
-#### Retrieve broker registration
-```jsonnet
+#### Retrieve broker registration  
+
+```http
 GET /api/broker/:id
 ```
+
 **Description**
 
 Returns a registered broker.
 
 **Response**
+
 ```json
 {
     "_id": "5d79270db817cb5f0e401443",
@@ -80,15 +90,18 @@ Returns a registered broker.
 ```
 
 #### Register a new broker
-```jsonnet
+
+```http
 POST /api/broker
 ```
-**Description**
+
+**Description**  
 
 Registeres a new broker with the indexer. The indexer in turn makes a request to broker to subscribe to sensors and their properties.
 Currently indexer only subscribes to location and type of the sensor.
 
 **Request**
+
 ```json
 {
     "host": "http://broker2.iotcrawler.net"
@@ -97,33 +110,40 @@ Currently indexer only subscribes to location and type of the sensor.
 
 **Response**
 `Location: /api/broker/5d79270db817cb5f0e401443`
-```json
+
+```json  
 {
     "_id": "5d79270db817cb5f0e401443",
     "host": "http://broker2.iotcrawler.net",
     "subscriptionId": "5d792711f38f3f53d4a7aa98"
 }
-```
+```  
 
 #### Remove broker registration
-```jsonnet
+
+```http
 DELETE /api/broker/:id
-```
+```  
+
 **Description**
 
 Removes broker registration from the indexer. The indexer in turn makes a request to broker to delete the corresponding subscription.
 The response is a 204.
 
 ### Notification handling
+
 #### Add Stream to Index
-```jsonnet
+
+```http
 POST /api/notification/stream
 ```
+
 **Description**
 
 Adds the stream fron the request to the Index. This API is intended to be used as a callback for the broker.
 
 **Request**
+
 ```json
 {
     "subscriptionId": "5d7223f457102222dce6f40b",
@@ -145,19 +165,23 @@ Adds the stream fron the request to the Index. This API is intended to be used a
 ```
 
 **Response**
+
 ```json
 {}
 ```
 
 #### Add Sensor to Index
-```jsonnet
+
+```http
 POST /api/notification/sensor
 ```
+
 **Description**
 
 Adds the Sensor from the request to the Index. This API is intended to be used as a callback for the broker.
 
 **Request**
+
 ```json
 {
     "subscriptionId": "5d7223f457102222dce6f40b",
@@ -189,20 +213,24 @@ Adds the Sensor from the request to the Index. This API is intended to be used a
 ```
 
 **Response**
+
 ```json
 {}
 ```
 
 #### Add QoI to Index
-```jsonnet
+
+```http  
 POST /api/notification/qoi
-```
+```  
+
 **Description**
 
 Adds the QoI from the request to the Index. This API is intended to be used as a callback for the broker.
 All properties of the entity will be added to the index as is.
 
 **Request**
+
 ```json
 {
     "subscriptionId": "5d7223f457102222dce6f40b",
@@ -224,19 +252,23 @@ All properties of the entity will be added to the index as is.
 ```
 
 **Response**
+
 ```json
 {}
 ```
 
 #### Add Point to Index
-```jsonnet
+
+```http  
 POST /api/notification/point
 ```
+
 **Description**
 
 Adds the Point from the request to the Index. This API is intended to be used as a callback for the broker.
 
-**Request**
+**Request**  
+
 ```json
 {
     "subscriptionId": "5d7223f457102222dce6f40b",
@@ -254,14 +286,17 @@ Adds the Point from the request to the Index. This API is intended to be used as
 ```
 
 **Response**
+
 ```json
 {}
 ```
 
-### Querying
-```jsonnet
+### Querying  
+
+```http
 GET /ngsi-ld/v1/entities
-```
+```  
+
 **Description**
 
 Indexing implements full NGSI-LD qurying interface. `Link` header is **NOT** supported.
@@ -297,16 +332,19 @@ If query is too complex or queried entites are not in the index, original requst
         }
     }
 }
-```
+```  
 
-**Examples**
-```jsonnet
+**Examples**  
+
+```http
 // IotStream
 GET /ngsi-ld/v1/entities?idPattern=.*&type=iot-stream:IotStream&q=iot-stream:generatedBy.geo:location.iot-lite:relativeLocation=="This is my location description";qoi:hasQuality.https://w3id.org/iot/qoi%23prop2>0.7
+
 GET /ngsi-ld/v1/entities?type=http://purl.org/iot/ontology/iot-stream%23IotStream&q=http://purl.org/iot/ontology/iot-stream%23generatedBy==urn:ngsi-ld:Sensor:aarhus:traffic:192627:avgMeasuredTime|http://purl.org/iot/ontology/iot-stream%23generatedBy==urn:ngsi-ld:Sensor:aarhus:traffic:192627:avgSpeed
 
 // Sensor
 GET /ngsi-ld/v1/entities?georel=near;maxDistance==100000&geometry=Point&coordinates=[-4.0,43.5]&type=sosa:Sensor&q=geo:location.iot-lite:relativeLocation=="This is my location description"
+
 GET /ngsi-ld/v1/entities?type=http://www.w3.org/ns/sosa/Sensor&georel=near;maxDistance==4500&geometry=Point&coordinates=[10.2,56.16]&q=http://www.w3.org/ns/sosa/observes==urn:ngsi-ld:ObservableProperty:aarhus:traffic:avgMeasuredTime|http://www.w3.org/ns/sosa/observes==urn:ngsi-ld:ObservableProperty:aarhus:traffic:avgSpeed
 
 // QoI
@@ -317,9 +355,11 @@ GET /ngsi-ld/v1/entities?id=urn:ngsi-ld:Point:point1&type=geo:Point&q=iot-lite:r
 ```
 
 The following queries are supported, but will be forwarded to NGSI-LD broker:
-```jsonnet
+
+```http
 // Stream Observations
 GET /ngsi-ld/v1/entities/?type=http%3A%2F%2Fpurl.org%2Fiot%2Fontology%2Fiot-stream%23StreamObservation&q=http://www.w3.org/ns/sosa/resultTime>"2019-11-27T11:30:00.000Z"
+
 GET /ngsi-ld/v1/entities?type=http%3A%2F%2Fpurl.org%2Fiot%2Fontology%2Fiot-stream%23StreamObservation&q=http%3A%2F%2Fpurl.org%2Fiot%2Fontology%2Fiot-stream%23belongsTo%3D%3Durn%3Angsi-ld%3AIotStream%3Aaarhus%3Atraffic%3A192627%3AavgMeasuredTime%7Chttp%3A%2F%2Fpurl.org%2Fiot%2Fontology%2Fiot-stream%23belongsTo%3D%3Durn%3Angsi-ld%3AIotStream%3Aaarhus%3Atraffic%3A192627%3AavgSpeed&limit=500
 
 // Events
@@ -335,10 +375,13 @@ npm run dev
 ### Running in Production mode
 
 1. Build the service
+
    ```bash
    npm run build
    ```
+
 2. Start the service
+
    ```bash
    npm run start
    ```
@@ -349,13 +392,16 @@ To run the service inside a container follow the instructions in [DEPLOYMENT.md]
 ### First time setup
 
 1. Install dependencies
+
    ```bash
    npm install
    ```
+  
 2. Setup and Start mongo
    MongoDB setup instructions are located in: [DEPLOYMENT.md](./DEPLOYMENT.md).
 3. Create a `.env` file (copy from `.env.example`) and set the variables appropriately
 4. Add country boundary data to the database
+
    ```bash
    npm run populateDB
    ```
