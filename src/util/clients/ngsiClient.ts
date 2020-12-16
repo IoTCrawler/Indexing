@@ -40,7 +40,7 @@ export class NgsiClient {
 
     public async createSubscription(handler: string, type: string, attributes: string[] = []): Promise<{ id: string }> {
         const reqData: Subscription = {
-            id: (new mongoose.Types.ObjectId()).toHexString(),
+            id: "indexing:" + (new mongoose.Types.ObjectId()).toHexString(),
             type: 'Subscription',
             entities: [
                 {
