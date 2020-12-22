@@ -61,6 +61,17 @@ export class NgsiClient {
             ]
         };
 
+        if (reqData.watchedAttributes) {
+            if (reqData.watchedAttributes.length < 1) {
+                delete reqData.watchedAttributes;
+            }
+        }
+        if (reqData.notification.attributes) {
+            if (reqData.notification.attributes.length < 1) {
+                delete reqData.notification.attributes;
+            }
+        }
+
         const result = await this.client.post<Subscription>(`/ngsi-ld/v1/subscriptions/`, reqData, this.contentType);
         if (result.status !== CREATED) {
             throw new NgsiError(result.status, "Failed to create subscription")
