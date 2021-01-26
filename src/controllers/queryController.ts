@@ -325,8 +325,18 @@ export class QueryController implements Controller {
                 result.push(...r);
             }
 
+            //////////            
+
+            if (result === undefined || result.length == 0) {
+                console.info(`Forwarding query to the Broker: No results from Indexing`);
+                await this.proxyRequest(req, res);
+                return;
+            }
+            ///////////
+
             res.status(OK).json(result);
             return;
+
         }
         catch (e) {
             if (e instanceof NgsiError) {
