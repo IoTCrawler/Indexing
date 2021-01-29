@@ -52,11 +52,27 @@ export class QueryController implements Controller {
         const context = IotcContext; // TODO get context from Link header
 
         try {
+            
             // Query must contain type and no context course filter must be present
             if (query.csf || !query.type
                 || (query.geoproperty && query.geoproperty !== 'location')
                 || (query.q && query.q.includes('~='))) {
                 throw 'Query not supported';
+            }
+
+            // if (query.csf || !query.type
+            //     || (query.geoproperty && query.geoproperty !== 'location')
+            //     || (query.q && query.q.includes('~='))) {
+            //     console.info(`Forwarding query to MDR at ${env.BROKER_HOST}: No location attribute found in query`);
+            //     await this.proxyRequest(req, res);
+            //     return;
+            // }
+
+            // If none of the geo-query parameters are present, forward to broker
+            if (!(query.georel || query.geometry || query.coordinates)) {
+                console.info(`Forwarding query to MDR at ${env.BROKER_HOST}: No location attribute found in query`);
+                await this.proxyRequest(req, res);
+                return;
             }
 
             // If any of geo-query parameters are present, all must be present
@@ -325,13 +341,13 @@ export class QueryController implements Controller {
                 result.push(...r);
             }
 
-            //////////            
+            ////////// if no results returned, forward to broker
 
-            if (result === undefined || result.length == 0) {
-                console.info(`Forwarding query to the Broker: No results from Indexing`);
-                await this.proxyRequest(req, res);
-                return;
-            }
+            // if (result === undefined || result.length == 0) {
+            //     console.info(`Forwarding query to MDR at ${env.BROKER_HOST} : No results from Indexing`);
+            //     await this.proxyRequest(req, res);
+            //     return;
+            // }
             ///////////
 
             res.status(OK).json(result);
