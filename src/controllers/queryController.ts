@@ -373,7 +373,8 @@ export class QueryController implements Controller {
     public async proxyRequest(req: express.Request, res: express.Response): Promise<void> {
         try {
             const response = await Axios.get(`${env.BROKER_HOST}${req.originalUrl}`, {
-                headers: req.headers
+                headers: req.headers,
+                timeout: 5000 //added timeout
             });
 
             for (const header in response.headers) {
