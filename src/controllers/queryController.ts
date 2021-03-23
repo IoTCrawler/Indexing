@@ -385,7 +385,7 @@ export class QueryController implements Controller {
             res.status(response.status).send(response.data);
         } catch (error) {
             if (error.response) {
-                console.error(`Forwarding request to the broker returned an error: ${error.resonse.status}`);
+                console.error(`Forwarding request to the broker returned an error: ${error.response.status}`);
                 for (const header in error.response.headers) {
                     if (header === 'transfer-encoding') { continue; }
                     res.setHeader(header, error.response.headers[header]);
